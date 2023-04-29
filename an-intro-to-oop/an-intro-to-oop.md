@@ -1,5 +1,14 @@
 # What is a computer program
-Is a recipe that makes the computer made what do you want.
+Is a set of _ordered_ instructions that alter the state of an electronic 
+memory. Every computer program has an entry and an output that can be empty. 
+Emptyness is as important here as having the number zero in our numbering 
+systems.
+
+A computer program can have another computer programs nested within it. Given
+that, we can have a full graph of computer programs that are in relationship
+ones with anothers, each one having clearly defined its inputs and outputs.
+
+
 
 
 # How we store computer programs today
