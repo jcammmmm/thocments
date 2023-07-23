@@ -1,0 +1,465 @@
+Buildfile: /home/jcammmmm/repo.o/tomcat/build.xml
+
+download-bnd:
+
+testexist:
+     [echo] Testing  for /home/jcammmmm/Downloads/tomcat-build-libs/bnd-6.3.1/biz.aQute.bnd-6.3.1.jar
+
+setproxy:
+
+downloadfile:
+
+setup-bnd:
+
+download-compile:
+
+testexist:
+     [echo] Testing  for /home/jcammmmm/Downloads/tomcat-build-libs/commons-daemon-1.3.2/commons-daemon-1.3.2.jar
+
+downloadgz-2:
+
+testexist:
+     [echo] Testing  for /home/jcammmmm/Downloads/tomcat-build-libs/ecj-4.20/ecj-4.20.jar
+
+downloadfile-2:
+
+testexist:
+     [echo] Testing  for /home/jcammmmm/Downloads/tomcat-build-libs/jaxrpc-1.1-rc4/geronimo-spec-jaxrpc-1.1-rc4.jar
+
+setproxy:
+
+downloadfile:
+      [get] Getting: https://repo.maven.apache.org/maven2/geronimo-spec/geronimo-spec-jaxrpc/1.1-rc4/geronimo-spec-jaxrpc-1.1-rc4.jar
+      [get] To: /home/jcammmmm/Downloads/tomcat-build-libs/download-2016230724.tmp
+     [echo] Checksum check for geronimo-spec-jaxrpc-1.1-rc4.jar, algorithm MD5|SHA-1: OK
+    [mkdir] Created dir: /home/jcammmmm/Downloads/tomcat-build-libs/jaxrpc-1.1-rc4
+     [move] Moving 1 file to /home/jcammmmm/Downloads/tomcat-build-libs/jaxrpc-1.1-rc4
+
+testexist:
+     [echo] Testing  for /home/jcammmmm/Downloads/tomcat-build-libs/wsdl4j-1.6.3/wsdl4j-1.6.3.jar
+
+setproxy:
+
+downloadfile:
+      [get] Getting: https://repo.maven.apache.org/maven2/wsdl4j/wsdl4j/1.6.3/wsdl4j-1.6.3.jar
+      [get] To: /home/jcammmmm/Downloads/tomcat-build-libs/download-1313404686.tmp
+     [echo] Checksum check for wsdl4j-1.6.3.jar, algorithm MD5|SHA-1: OK
+    [mkdir] Created dir: /home/jcammmmm/Downloads/tomcat-build-libs/wsdl4j-1.6.3
+     [move] Moving 1 file to /home/jcammmmm/Downloads/tomcat-build-libs/wsdl4j-1.6.3
+
+testexist:
+     [echo] Testing  for /home/jcammmmm/Downloads/tomcat-build-libs/migration-1.0.4/jakartaee-migration-1.0.4-shaded.jar
+
+setproxy:
+
+downloadfile:
+      [get] Getting: https://repo.maven.apache.org/maven2/org/apache/tomcat/jakartaee-migration/1.0.4/jakartaee-migration-1.0.4-shaded.jar
+      [get] To: /home/jcammmmm/Downloads/tomcat-build-libs/download-1421701501.tmp
+     [echo] Checksum check for jakartaee-migration-1.0.4-shaded.jar, algorithm MD5|SHA-1: OK
+    [mkdir] Created dir: /home/jcammmmm/Downloads/tomcat-build-libs/migration-1.0.4
+     [move] Moving 1 file to /home/jcammmmm/Downloads/tomcat-build-libs/migration-1.0.4
+
+build-prepare:
+    [mkdir] Created dir: /home/jcammmmm/repo.o/tomcat/output/classes
+    [mkdir] Created dir: /home/jcammmmm/repo.o/tomcat/output/build
+    [mkdir] Created dir: /home/jcammmmm/repo.o/tomcat/output/build/bin
+    [mkdir] Created dir: /home/jcammmmm/repo.o/tomcat/output/build/conf
+    [mkdir] Created dir: /home/jcammmmm/repo.o/tomcat/output/build/lib
+    [mkdir] Created dir: /home/jcammmmm/repo.o/tomcat/output/build/logs
+    [mkdir] Created dir: /home/jcammmmm/repo.o/tomcat/output/build/temp
+    [mkdir] Created dir: /home/jcammmmm/repo.o/tomcat/output/build/webapps
+    [mkdir] Created dir: /home/jcammmmm/repo.o/tomcat/output/build/webapps-javaee
+
+compile-prepare:
+     [copy] Copying 1 file to /home/jcammmmm/repo.o/tomcat/java/org/apache/catalina/startup
+     [copy] Copying 1 file to /home/jcammmmm/repo.o/tomcat/webapps/docs
+
+download-validate:
+
+validate:
+
+compile:
+    [javac] Compiling 1769 source files to /home/jcammmmm/repo.o/tomcat/output/classes
+    [javac] Note: Some input files use or override a deprecated API.
+    [javac] Note: Recompile with -Xlint:deprecation for details.
+    [javac] Creating empty /home/jcammmmm/repo.o/tomcat/output/classes/org/apache/tomcat/util/http/fileupload/impl/package-info.class
+    [javac] Creating empty /home/jcammmmm/repo.o/tomcat/output/classes/org/apache/tomcat/util/http/fileupload/servlet/package-info.class
+    [javac] Creating empty /home/jcammmmm/repo.o/tomcat/output/classes/org/apache/tomcat/websocket/pojo/package-info.class
+    [javac] Creating empty /home/jcammmmm/repo.o/tomcat/output/classes/org/apache/tomcat/util/http/fileupload/disk/package-info.class
+    [javac] Creating empty /home/jcammmmm/repo.o/tomcat/output/classes/org/apache/tomcat/dbcp/dbcp2/managed/package-info.class
+    [javac] Creating empty /home/jcammmmm/repo.o/tomcat/output/classes/org/apache/tomcat/dbcp/dbcp2/datasources/package-info.class
+    [javac] Creating empty /home/jcammmmm/repo.o/tomcat/output/classes/org/apache/tomcat/dbcp/dbcp2/cpdsadapter/package-info.class
+    [javac] Creating empty /home/jcammmmm/repo.o/tomcat/output/classes/org/apache/tomcat/util/http/fileupload/util/mime/package-info.class
+    [javac] Creating empty /home/jcammmmm/repo.o/tomcat/output/classes/org/apache/tomcat/util/http/fileupload/util/package-info.class
+    [javac] Creating empty /home/jcammmmm/repo.o/tomcat/output/classes/org/apache/tomcat/websocket/server/package-info.class
+    [javac] Creating empty /home/jcammmmm/repo.o/tomcat/output/classes/org/apache/tomcat/util/http/fileupload/package-info.class
+    [javac] Creating empty /home/jcammmmm/repo.o/tomcat/output/classes/org/apache/tomcat/dbcp/dbcp2/package-info.class
+    [javac] Creating empty /home/jcammmmm/repo.o/tomcat/output/classes/org/apache/tomcat/util/descriptor/tld/package-info.class
+     [copy] Copying 87 files to /home/jcammmmm/repo.o/tomcat/output/classes
+[native2ascii] Converting 77 files from /home/jcammmmm/repo.o/tomcat/java to /home/jcammmmm/repo.o/tomcat/output/classes
+[native2ascii] Converting 562 files from /home/jcammmmm/repo.o/tomcat/java to /home/jcammmmm/repo.o/tomcat/output/i18n
+
+build-manifests:
+    [mkdir] Created dir: /home/jcammmmm/repo.o/tomcat/output/manifests
+     [copy] Copying 21 files to /home/jcammmmm/repo.o/tomcat/output/manifests
+
+package:
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/annotations-api.jar
+
+add-osgi:
+     [echo] add-osgi /home/jcammmmm/repo.o/tomcat/output/build/lib/annotations-api.jar true
+   [delete] Deleting: /home/jcammmmm/repo.o/tomcat/output/build/lib/annotations-api.jar
+     [move] Moving 1 file to /home/jcammmmm/repo.o/tomcat/output/build/lib
+
+add-graal:
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/servlet-api.jar
+
+add-osgi:
+     [echo] add-osgi /home/jcammmmm/repo.o/tomcat/output/build/lib/servlet-api.jar true
+   [delete] Deleting: /home/jcammmmm/repo.o/tomcat/output/build/lib/servlet-api.jar
+     [move] Moving 1 file to /home/jcammmmm/repo.o/tomcat/output/build/lib
+
+add-graal:
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/el-api.jar
+
+add-osgi:
+     [echo] add-osgi /home/jcammmmm/repo.o/tomcat/output/build/lib/el-api.jar true
+   [delete] Deleting: /home/jcammmmm/repo.o/tomcat/output/build/lib/el-api.jar
+     [move] Moving 1 file to /home/jcammmmm/repo.o/tomcat/output/build/lib
+
+add-graal:
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/jsp-api.jar
+
+add-osgi:
+     [echo] add-osgi /home/jcammmmm/repo.o/tomcat/output/build/lib/jsp-api.jar true
+   [delete] Deleting: /home/jcammmmm/repo.o/tomcat/output/build/lib/jsp-api.jar
+     [move] Moving 1 file to /home/jcammmmm/repo.o/tomcat/output/build/lib
+
+add-graal:
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/websocket-api.jar
+
+add-osgi:
+     [echo] add-osgi /home/jcammmmm/repo.o/tomcat/output/build/lib/websocket-api.jar true
+   [delete] Deleting: /home/jcammmmm/repo.o/tomcat/output/build/lib/websocket-api.jar
+     [move] Moving 1 file to /home/jcammmmm/repo.o/tomcat/output/build/lib
+
+add-graal:
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/jaspic-api.jar
+
+add-osgi:
+     [echo] add-osgi /home/jcammmmm/repo.o/tomcat/output/build/lib/jaspic-api.jar true
+   [delete] Deleting: /home/jcammmmm/repo.o/tomcat/output/build/lib/jaspic-api.jar
+     [move] Moving 1 file to /home/jcammmmm/repo.o/tomcat/output/build/lib
+
+add-graal:
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/bin/tomcat-juli.jar
+
+add-osgi:
+     [echo] add-osgi /home/jcammmmm/repo.o/tomcat/output/build/bin/tomcat-juli.jar true
+   [delete] Deleting: /home/jcammmmm/repo.o/tomcat/output/build/bin/tomcat-juli.jar
+     [move] Moving 1 file to /home/jcammmmm/repo.o/tomcat/output/build/bin
+
+add-graal:
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/bin/bootstrap.jar
+
+add-osgi:
+
+add-graal:
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-util.jar
+
+add-osgi:
+     [echo] add-osgi /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-util.jar true
+   [delete] Deleting: /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-util.jar
+     [move] Moving 1 file to /home/jcammmmm/repo.o/tomcat/output/build/lib
+
+add-graal:
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-api.jar
+
+add-osgi:
+     [echo] add-osgi /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-api.jar true
+   [delete] Deleting: /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-api.jar
+     [move] Moving 1 file to /home/jcammmmm/repo.o/tomcat/output/build/lib
+
+add-graal:
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-util-scan.jar
+
+add-osgi:
+     [echo] add-osgi /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-util-scan.jar true
+   [delete] Deleting: /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-util-scan.jar
+     [move] Moving 1 file to /home/jcammmmm/repo.o/tomcat/output/build/lib
+
+add-graal:
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-jni.jar
+
+add-osgi:
+     [echo] add-osgi /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-jni.jar true
+   [delete] Deleting: /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-jni.jar
+     [move] Moving 1 file to /home/jcammmmm/repo.o/tomcat/output/build/lib
+
+add-graal:
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-coyote.jar
+
+add-osgi:
+     [echo] add-osgi /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-coyote.jar true
+      [bnd] 1 WARNINGS
+      [bnd]  Export org.apache.tomcat.util.http.fileupload,  has 1,  private references [org.apache.tomcat.util.http.fileupload.impl]
+   [delete] Deleting: /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-coyote.jar
+     [move] Moving 1 file to /home/jcammmmm/repo.o/tomcat/output/build/lib
+
+add-graal:
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-websocket.jar
+
+add-osgi:
+     [echo] add-osgi /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-websocket.jar true
+   [delete] Deleting: /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-websocket.jar
+     [move] Moving 1 file to /home/jcammmmm/repo.o/tomcat/output/build/lib
+
+add-graal:
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/catalina-tribes.jar
+
+add-osgi:
+     [echo] add-osgi /home/jcammmmm/repo.o/tomcat/output/build/lib/catalina-tribes.jar true
+   [delete] Deleting: /home/jcammmmm/repo.o/tomcat/output/build/lib/catalina-tribes.jar
+     [move] Moving 1 file to /home/jcammmmm/repo.o/tomcat/output/build/lib
+
+add-graal:
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/catalina.jar
+
+add-osgi:
+     [echo] add-osgi /home/jcammmmm/repo.o/tomcat/output/build/lib/catalina.jar true
+   [delete] Deleting: /home/jcammmmm/repo.o/tomcat/output/build/lib/catalina.jar
+     [move] Moving 1 file to /home/jcammmmm/repo.o/tomcat/output/build/lib
+
+add-graal:
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/catalina-ha.jar
+
+add-osgi:
+     [echo] add-osgi /home/jcammmmm/repo.o/tomcat/output/build/lib/catalina-ha.jar true
+   [delete] Deleting: /home/jcammmmm/repo.o/tomcat/output/build/lib/catalina-ha.jar
+     [move] Moving 1 file to /home/jcammmmm/repo.o/tomcat/output/build/lib
+
+add-graal:
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/catalina-ssi.jar
+
+add-osgi:
+     [echo] add-osgi /home/jcammmmm/repo.o/tomcat/output/build/lib/catalina-ssi.jar true
+   [delete] Deleting: /home/jcammmmm/repo.o/tomcat/output/build/lib/catalina-ssi.jar
+     [move] Moving 1 file to /home/jcammmmm/repo.o/tomcat/output/build/lib
+
+add-graal:
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/catalina-ant.jar
+
+add-osgi:
+
+add-graal:
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/catalina-storeconfig.jar
+
+add-osgi:
+     [echo] add-osgi /home/jcammmmm/repo.o/tomcat/output/build/lib/catalina-storeconfig.jar true
+   [delete] Deleting: /home/jcammmmm/repo.o/tomcat/output/build/lib/catalina-storeconfig.jar
+     [move] Moving 1 file to /home/jcammmmm/repo.o/tomcat/output/build/lib
+
+add-graal:
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/jasper-el.jar
+
+add-osgi:
+     [echo] add-osgi /home/jcammmmm/repo.o/tomcat/output/build/lib/jasper-el.jar true
+   [delete] Deleting: /home/jcammmmm/repo.o/tomcat/output/build/lib/jasper-el.jar
+     [move] Moving 1 file to /home/jcammmmm/repo.o/tomcat/output/build/lib
+
+add-graal:
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/jasper.jar
+
+add-osgi:
+     [echo] add-osgi /home/jcammmmm/repo.o/tomcat/output/build/lib/jasper.jar true
+   [delete] Deleting: /home/jcammmmm/repo.o/tomcat/output/build/lib/jasper.jar
+     [move] Moving 1 file to /home/jcammmmm/repo.o/tomcat/output/build/lib
+
+add-graal:
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-dbcp.jar
+
+add-osgi:
+     [echo] add-osgi /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-dbcp.jar true
+   [delete] Deleting: /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-dbcp.jar
+     [move] Moving 1 file to /home/jcammmmm/repo.o/tomcat/output/build/lib
+
+add-graal:
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-i18n-cs.jar
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-i18n-de.jar
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-i18n-es.jar
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-i18n-fr.jar
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-i18n-ja.jar
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-i18n-ko.jar
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-i18n-pt-BR.jar
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-i18n-ru.jar
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/build/lib/tomcat-i18n-zh-CN.jar
+
+build-docs:
+[xmlvalidate] 1 file(s) have been successfully validated.
+     [copy] Copying 34 files to /home/jcammmmm/repo.o/tomcat/output/build/webapps
+     [copy] Copying 7 files to /home/jcammmmm/repo.o/tomcat/output/build/webapps
+     [copy] Copying 2 files to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs
+     [copy] Copying 1 file to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs
+     [copy] Copying 1 file to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs
+     [copy] Copying 1 file to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/appdev/sample
+     [xslt] Transforming into /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/aio.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/aio.html
+     [xslt] Loading stylesheet /home/jcammmmm/repo.o/tomcat/webapps/docs/tomcat-docs.xsl
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/apr.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/apr.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/balancer-howto.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/balancer-howto.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/building.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/building.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/cdi.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/cdi.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/cgi-howto.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/cgi-howto.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/changelog.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/changelog.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/class-loader-howto.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/class-loader-howto.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/cluster-howto.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/cluster-howto.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/comments.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/comments.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/connectors.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/connectors.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/default-servlet.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/default-servlet.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/deployer-howto.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/deployer-howto.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/developers.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/developers.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/graal.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/graal.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/host-manager-howto.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/host-manager-howto.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/html-host-manager-howto.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/html-host-manager-howto.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/html-manager-howto.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/html-manager-howto.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/index.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/index.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/introduction.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/introduction.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/jasper-howto.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/jasper-howto.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/jdbc-pool.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/jdbc-pool.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/jndi-datasource-examples-howto.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/jndi-datasource-examples-howto.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/jndi-resources-howto.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/jndi-resources-howto.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/logging.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/logging.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/manager-howto.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/manager-howto.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/maven-jars.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/maven-jars.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/mbeans-descriptors-howto.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/mbeans-descriptors-howto.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/monitoring.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/monitoring.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/proxy-howto.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/proxy-howto.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/realm-howto.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/realm-howto.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/rewrite.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/rewrite.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/security-howto.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/security-howto.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/security-manager-howto.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/security-manager-howto.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/setup.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/setup.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/ssi-howto.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/ssi-howto.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/ssl-howto.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/ssl-howto.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/virtual-hosting-howto.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/virtual-hosting-howto.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/web-socket-howto.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/web-socket-howto.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/windows-auth-howto.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/windows-auth-howto.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/windows-service-howto.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/windows-service-howto.html
+     [xslt] Transforming into /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/appdev
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/appdev/deployment.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/appdev/deployment.html
+     [xslt] Loading stylesheet /home/jcammmmm/repo.o/tomcat/webapps/docs/tomcat-docs.xsl
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/appdev/index.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/appdev/index.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/appdev/installation.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/appdev/installation.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/appdev/introduction.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/appdev/introduction.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/appdev/processes.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/appdev/processes.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/appdev/source.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/appdev/source.html
+     [xslt] Transforming into /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/ajp.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/ajp.html
+     [xslt] Loading stylesheet /home/jcammmmm/repo.o/tomcat/webapps/docs/tomcat-docs.xsl
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/automatic-deployment.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/automatic-deployment.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/cluster-channel.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/cluster-channel.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/cluster-deployer.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/cluster-deployer.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/cluster-interceptor.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/cluster-interceptor.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/cluster-listener.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/cluster-listener.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/cluster-manager.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/cluster-manager.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/cluster-membership.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/cluster-membership.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/cluster-receiver.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/cluster-receiver.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/cluster-sender.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/cluster-sender.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/cluster-valve.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/cluster-valve.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/cluster.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/cluster.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/context.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/context.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/cookie-processor.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/cookie-processor.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/credentialhandler.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/credentialhandler.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/engine.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/engine.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/executor.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/executor.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/filter.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/filter.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/globalresources.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/globalresources.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/host.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/host.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/http.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/http.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/http2.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/http2.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/index.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/index.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/jar-scan-filter.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/jar-scan-filter.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/jar-scanner.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/jar-scanner.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/jaspic.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/jaspic.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/listeners.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/listeners.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/loader.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/loader.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/manager.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/manager.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/realm.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/realm.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/resources.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/resources.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/server.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/server.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/service.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/service.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/sessionidgenerator.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/sessionidgenerator.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/systemprops.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/systemprops.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/config/valve.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/config/valve.html
+     [xslt] Transforming into /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/architecture
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/architecture/index.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/architecture/index.html
+     [xslt] Loading stylesheet /home/jcammmmm/repo.o/tomcat/webapps/docs/tomcat-docs.xsl
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/architecture/overview.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/architecture/overview.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/architecture/requestProcess.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/architecture/requestProcess.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/architecture/startup.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/architecture/startup.html
+     [xslt] Transforming into /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/tribes
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/tribes/developers.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/tribes/developers.html
+     [xslt] Loading stylesheet /home/jcammmmm/repo.o/tomcat/webapps/docs/tomcat-docs.xsl
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/tribes/faq.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/tribes/faq.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/tribes/interceptors.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/tribes/interceptors.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/tribes/introduction.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/tribes/introduction.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/tribes/membership.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/tribes/membership.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/tribes/setup.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/tribes/setup.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/tribes/status.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/tribes/status.html
+     [xslt] Processing /home/jcammmmm/repo.o/tomcat/webapps/docs/tribes/transport.xml to /home/jcammmmm/repo.o/tomcat/output/build/webapps/docs/tribes/transport.html
+
+build-tomcat-jdbc:
+     [echo] Building Tomcat JDBC pool libraries
+   [tstamp] magic property ant.tstamp.now.iso ignored as '${ant.tstamp.now.iso}' is not in valid ISO pattern
+   [tstamp] magic property ant.tstamp.now.iso ignored as '${ant.tstamp.now.iso}' is not in valid ISO pattern
+
+prepare:
+    [mkdir] Created dir: /home/jcammmmm/repo.o/tomcat/output/jdbc-pool/build
+    [mkdir] Created dir: /home/jcammmmm/repo.o/tomcat/output/jdbc-pool/classes
+    [mkdir] Created dir: /home/jcammmmm/repo.o/tomcat/output/jdbc-pool/testclasses
+     [copy] Copying 7 files to /home/jcammmmm/repo.o/tomcat/output/jdbc-pool
+     [copy] Copying 2 files to /home/jcammmmm/repo.o/tomcat/output/jdbc-pool/mbeans
+
+download:
+
+build-src:
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/jdbc-pool/tomcat-jdbc-src.jar
+
+build:
+    [javac] Compiling 37 source files to /home/jcammmmm/repo.o/tomcat/output/jdbc-pool/classes
+      [jar] Building jar: /home/jcammmmm/repo.o/tomcat/output/jdbc-pool/tomcat-jdbc.jar
+     [copy] Copying 1 file to /home/jcammmmm/repo.o/tomcat/output/build/lib
+
+compile-webapp-examples:
+    [mkdir] Created dir: /home/jcammmmm/repo.o/tomcat/output/build/webapps/examples/WEB-INF/classes
+    [javac] Compiling 73 source files to /home/jcammmmm/repo.o/tomcat/output/build/webapps/examples/WEB-INF/classes
+[native2ascii] Converting 11 files from /home/jcammmmm/repo.o/tomcat/webapps/examples/WEB-INF/classes to /home/jcammmmm/repo.o/tomcat/output/build/webapps/examples/WEB-INF/classes
+
+deploy:
+     [copy] Copying 1 file to /home/jcammmmm/repo.o/tomcat/output/build/bin
+     [copy] Copying 1 file to /home/jcammmmm/repo.o/tomcat/output/build/bin
+     [copy] Copying 24 files to /home/jcammmmm/repo.o/tomcat/output/build/bin
+     [copy] Copying 10 files to /home/jcammmmm/repo.o/tomcat/output/build/conf
+     [copy] Copying 233 files to /home/jcammmmm/repo.o/tomcat/output/build/webapps
+     [copy] Copying 1 file to /home/jcammmmm/repo.o/tomcat/output/build/webapps
+     [copy] Copying 1 file to /home/jcammmmm/repo.o/tomcat/output/build/webapps/ROOT
+     [copy] Copying 1 file to /home/jcammmmm/repo.o/tomcat/output/build/lib
+     [copy] Copying 1 file to /home/jcammmmm/repo.o/tomcat/output/build/lib
+
+examples-sources:
+ [txt2html] Converted 1 file to /home/jcammmmm/repo.o/tomcat/output/build/webapps/examples/jsp/jsp2/simpletag
+ [txt2html] Converted 4 files to /home/jcammmmm/repo.o/tomcat/output/build/webapps/examples/jsp/jsp2/simpletag
+ [txt2html] Converted 5 files to /home/jcammmmm/repo.o/tomcat/output/build/webapps/examples/jsp/jsp2/simpletag
+ [txt2html] Converted 1 file to /home/jcammmmm/repo.o/tomcat/output/build/webapps/examples/jsp/jsp2/jspattribute
+ [txt2html] Converted 4 files to /home/jcammmmm/repo.o/tomcat/output/build/webapps/examples/jsp/jsp2/jspattribute
+ [txt2html] Converted 4 files to /home/jcammmmm/repo.o/tomcat/output/build/webapps/examples/jsp/cal
+ [txt2html] Converted 1 file to /home/jcammmmm/repo.o/tomcat/output/build/webapps/examples/jsp/jsptoserv
+ [txt2html] Converted 1 file to /home/jcammmmm/repo.o/tomcat/output/build/webapps/examples/jsp/jsp2/el
+ [txt2html] Converted 2 files to /home/jcammmmm/repo.o/tomcat/output/build/webapps/examples/jsp/jsp2/el
+ [txt2html] Converted 3 files to /home/jcammmmm/repo.o/tomcat/output/build/webapps/examples/jsp/jsp2/el
+ [txt2html] Converted 1 file to /home/jcammmmm/repo.o/tomcat/output/build/webapps/examples/jsp/jsp2/misc
+ [txt2html] Converted 3 files to /home/jcammmmm/repo.o/tomcat/output/build/webapps/examples/jsp/jsp2/tagfiles
+ [txt2html] Converted 46 files to /home/jcammmmm/repo.o/tomcat/output/build/webapps/examples
+
+BUILD SUCCESSFUL
+Total time: 23 seconds
