@@ -1,7 +1,0 @@
--d target 
-
--g
-
--classpath .:/home/jcammmmm/repo.m/thocments/java-why-maven/src/lib/h2-1.4.197.jar:/home/jcammmmm/repo.m/thocments/java-why-maven/src/lib/hibernate-commons-annotations-6.0.0.CR1.jar:/home/jcammmmm/repo.m/thocments/java-why-maven/src/lib/hibernate-core-6.0.0.CR2.jar:/home/jcammmmm/repo.m/thocments/java-why-maven/src/lib/jakarta.persistence-api-3.1.0.jar:/home/jcammmmm/repo.m/thocments/java-why-maven/src/lib/junit-4.13.2.jar:/home/jcammmmm/repo.m/thocments/java-why-maven/src/lib/slf4j-simple-1.7.5.jar
-
--sourcepath .
