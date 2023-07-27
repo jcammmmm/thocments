@@ -1,22 +1,24 @@
 Intro
 ===========================================================
-Nowadays (2020's) any important application, utilty, tool or framework seems to be built with the help of [Apache Maven](https://maven.apache.org/run.html) or new developments with [Gradle](https://gradle.org/). But, do not you can build the software on your own? How hard it is? Today I was reading the _Hibernate_ getting started [guide](https://docs.jboss.org/hibernate/orm/6.2/quickstart/html_single/), and I found that they did not use the framework from scratch, instead they provide a working example bundled with Maven and JUnit.
+Nowadays (2020's) any important application, utilty, tool or framework seems to be built with the help of [Apache Maven](https://maven.apache.org/run.html) or new developments with [Gradle](https://gradle.org/). But, how can you build the software on your own? How hard it is? Today (somewhere in June 2023) I was reading the _Hibernate_ getting started [guide](https://docs.jboss.org/hibernate/orm/6.2/quickstart/html_single/), and I found that they did not use the framework from scratch, instead they provide a working example bundled with Maven and JUnit.
 
-For me, always has been important to write/compile the code from scratch in order to gain a good understanding on what the software does. In this situation I will try to compile the examples entirely by hand without using Maven. Let's see how hard it is.
+The main purpose of this article is to show how hard it is to compile and run a mature software application without using _Maven_ and by extension, any kind of building tool. Also, it will serve as walkthrough for whose whom only used the `javac` and `java` command to compile single-file and minimal applications.
+
+For me, always have been important to write and compile the code from scratch in order to gain a good understanding on what the software does. In this situation I will try to compile the examples entirely by hand without using _Maven_. Let's see how hard it is.
 
 Adding first layer dependencies: Compiling
 ===========================================================
-The java code to be run is the _getting started_ examples provided in the bundled distribution of maven. The _getting started_ document points you to a zip containing the tutorials. This tutorials are being packaged with _Maven_ and has _JUnit_ (unit test framework), _slf4j_ (logging framework), _H2_ (in memory database) and _Hibernate_ as dependencies. 
+The java code to be run is the _getting started_ examples provided in the bundled distribution of maven. The _getting started_ document points you to a zip containing the tutorials. This tutorials are being packaged with _Maven_ and have _JUnit_ (unit test framework), _slf4j_ (logging framework), _H2_ (in memory database) and _Hibernate_ as dependencies. 
 
 The first thing is to download the dependencies defined in `pom.xml`. I will download those software from [Maven Central](https://mvnrepository.com/repos/central) but you can download it from anywhere else.
 These are the required versions defined there:
-* org.hibernate hibernate-core:6.0.0.CR2
-* org.slf4j slf4j-simple:1.7.5
-* junit junit:4.13.2
-* com.h2database h2:1.4.197
+* `org.hibernate hibernate-core:6.0.0.CR2`
+* `org.slf4j slf4j-simple:1.7.5`
+* `junit junit:4.13.2`
+* `com.h2database h2:1.4.197`
 
 Before to run the clases, some modifications where made:
-  - The two clases on `Basic` folder, where place in the default package.
+  - The two clases on `Basic` folder, where placed in the default package.
   - A `main()` method was added to the test class.
     ```java
     public static void main(String[] args) {
@@ -29,10 +31,12 @@ Before to run the clases, some modifications where made:
   - Any reference to _JUnit_ was removed, now the test class does not extends from `junit.framework.TestCase`.
   - The `@Overrides were removed`.
 
-Then issue the following command to your terminal emulator. Note that we also add the _classpath_ the _current working directory_ `.`:
+Then, issue the following command to your terminal emulator; Note that we also add the source directory `src` to the _classpath_:
 ```sh
-javac -cp .:hibernate-core-6.0.0.CR2.jar:h2-1.4.197.jar NativeApiIllustrationTest.java
+javac -cp src:lib/hibernate-core-6.0.0.CR2.jar: src/NativeApiIllustrationTest.java
 ```
+
+IMPORTANT. Note that for compiling only it is needed to link those packages that are being used in the source code.
 
 This will return several error messages, the first one is listed below:
 ```log
@@ -60,11 +64,12 @@ From that message it is easy to guess that `jakarta.persistence.EntityManagerFac
 I download the dependency as we did previously from here:
 ![pic](./pic.png) 
 
-After that I updated the classpath, this is the command
+Now, run the following command, that now contains the missing sources:
 ```sh
-javac -d target -cp .:../lib/hibernate-core-6.0.0.CR2.jar:h2-1.4.197.jar:../lib/jakarta.persistence-api-3.1.0.jar samplespkg/NativeApiIllustrationTest.java 
+javac -d target -cp src:lib/hibernate-core-6.0.0.CR2.jar:lib/jakarta.persistence-api-3.1.0.jar src/NativeApiIllustrationTest.java 
 ```
-There you will the following notes:
+
+These are the logs:
 ```log
 Note: src/NativeApiIllustrationTest.java uses or overrides a deprecated API.
 Note: Recompile with -Xlint:deprecation for details.
@@ -72,18 +77,105 @@ Note: Recompile with -Xlint:deprecation for details.
 
 Adding second tier dependencies: Running
 ===========================================================
-When you try to run the example with `java NativeApiIllustrationTest`, appears an error:
+Since our classes belongs to the default package (they do not have declare any package on the begining on the source file) we have to enter to the `target` folder in order to run this classes. Now, run the application.
+```sh
+cd target
+java NativeApiIllustrationTest
+```
+
+That try will end in the following error:
 ```log
 Error: Unable to initialize main class NativeApiIllustrationTest
 Caused by: java.lang.NoClassDefFoundError: org/hibernate/service/ServiceRegistry
 ```
-I searched for this class and it belongs to `hibernate-core` package. As you can see here the process begins to be cumbersome. The next thing I will to try to do is to run the maven project and read the documentation about the compiler plugin. As the [documentation](https://maven.apache.org/plugins/index.html) states, Maven is a _plugin execution framework_ so it is a good idea to review how the compile plugin works. Understanding how Maven compiles your code, could you help to understand more clearly how _Gradle_ works.
+
+When you search for this class you find that belongs to the `hibernate-core` package. After realizing that maybe the dependencies that you used to compile are being used at run time, this is the command:
+```sh
+java -cp .:../lib/hibernate-core-6.0.0.CR2.jar:../lib/jakarta.persistence-api-3.1.0.jar NativeApiIllustrationTest
+```
+
+That command throws this exception:
+```java
+Exception in thread "main" java.lang.NoClassDefFoundError: org/jboss/logging/Logger
+        at org.hibernate.boot.registry.selector.internal.StrategySelectorBuilder.<clinit>(StrategySelectorBuilder.java:49)
+        at org.hibernate.boot.registry.BootstrapServiceRegistryBuilder.<init>(BootstrapServiceRegistryBuilder.java:50)
+        at org.hibernate.boot.registry.StandardServiceRegistryBuilder.<init>(StandardServiceRegistryBuilder.java:96)
+        at NativeApiIllustrationTest.setUp(NativeApiIllustrationTest.java:52)
+        at NativeApiIllustrationTest.main(NativeApiIllustrationTest.java:45)
+Caused by: java.lang.ClassNotFoundException: org.jboss.logging.Logger
+        at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:581)
+        at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:178)
+        at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:522)
+        ... 5 more
+```
+After adding the previously downloaded `slf4j` package to the classpath it throws the same exception. When you look at the log you see that the `Logger` missing class, belongs to the  `org.jboss.logging` package. After downloading the missing package from [mavencentral](https://mvnrepository.com/artifact/org.jboss.logging/jboss-logging/3.4.3.Final) with this command:
+
+```sh
+.:../lib/hibernate-core-6.0.0.CR2.jar:../lib/jakarta.persistence-api-3.1.0.jar:../lib/jboss-logging-3.4.3.Final.jar NativeApiIllustrationTest
+```
+
+you get another missing class exception:
+```
+Exception in thread "main" java.lang.NoClassDefFoundError: jakarta/transaction/SystemException
+        at java.base/java.lang.Class.forName0(Native Method)
+        at java.base/java.lang.Class.forName(Class.java:398)
+        at org.jboss.logging.Logger.doGetMessageLogger(Logger.java:2562)
+        at org.jboss.logging.Logger.getMessageLogger(Logger.java:2530)
+        at org.jboss.logging.Logger.getMessageLogger(Logger.java:2516)
+        at org.hibernate.internal.CoreLogging.messageLogger(CoreLogging.java:32)
+        at org.hibernate.internal.CoreLogging.messageLogger(CoreLogging.java:28)
+        at org.hibernate.boot.registry.classloading.internal.ClassLoaderServiceImpl.<clinit>(ClassLoaderServiceImpl.java:40)
+        at org.hibernate.boot.registry.BootstrapServiceRegistryBuilder.build(BootstrapServiceRegistryBuilder.java:185)
+        at org.hibernate.boot.registry.StandardServiceRegistryBuilder.<init>(StandardServiceRegistryBuilder.java:96)
+        at NativeApiIllustrationTest.setUp(NativeApiIllustrationTest.java:52)
+        at NativeApiIllustrationTest.main(NativeApiIllustrationTest.java:45)
+Caused by: java.lang.ClassNotFoundException: jakarta.transaction.SystemException
+        at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:581)
+        at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:178)
+        at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:522)
+        ... 12 more
+```
+
+Dependency Tree
+---------------------------------------
+As you can see here the process begins to be cumbersome. In order to see how many dependencies are remaining, I returned to the original source tutorials and get the dependencies tree `$ mvn dependency:tree`_
+
+```log
+[INFO] --- dependency:3.6.0:tree (default-cli) @ hibernate-tutorial-hbm ---
+[WARNING] The artifact org.hibernate:hibernate-core:jar:6.0.0.CR2 has been relocated to org.hibernate.orm:hibernate-core:jar:6.0.0.CR2
+[INFO] org.hibernate.tutorials:hibernate-tutorial-hbm:jar:6.0.0.CR2
+[INFO] +- org.hibernate.orm:hibernate-core:jar:6.0.0.CR2:compile
+[INFO] |  +- jakarta.persistence:jakarta.persistence-api:jar:3.0.0:compile
+[INFO] |  +- jakarta.transaction:jakarta.transaction-api:jar:2.0.0:compile
+[INFO] |  +- org.jboss.logging:jboss-logging:jar:3.4.3.Final:runtime
+[INFO] |  +- org.jboss:jandex:jar:2.4.2.Final:runtime
+[INFO] |  +- com.fasterxml:classmate:jar:1.5.1:runtime
+[INFO] |  +- org.hibernate.common:hibernate-commons-annotations:jar:6.0.0.CR1:runtime
+[INFO] |  +- net.bytebuddy:byte-buddy:jar:1.12.7:runtime
+[INFO] |  +- jakarta.activation:jakarta.activation-api:jar:2.0.1:runtime
+[INFO] |  +- jakarta.xml.bind:jakarta.xml.bind-api:jar:3.0.1:runtime
+[INFO] |  |  \- com.sun.activation:jakarta.activation:jar:2.0.1:runtime
+[INFO] |  +- org.glassfish.jaxb:jaxb-runtime:jar:3.0.2:runtime
+[INFO] |  |  \- org.glassfish.jaxb:jaxb-core:jar:3.0.2:runtime
+[INFO] |  |     +- org.glassfish.jaxb:txw2:jar:3.0.2:runtime
+[INFO] |  |     \- com.sun.istack:istack-commons-runtime:jar:4.0.1:runtime
+[INFO] |  +- jakarta.inject:jakarta.inject-api:jar:2.0.0:runtime
+[INFO] |  \- org.antlr:antlr4-runtime:jar:4.9.1:runtime
+[INFO] +- org.slf4j:slf4j-simple:jar:1.7.5:compile
+[INFO] |  \- org.slf4j:slf4j-api:jar:1.7.5:compile
+[INFO] +- junit:junit:jar:4.13.2:compile
+[INFO] |  \- org.hamcrest:hamcrest-core:jar:1.3:compile
+[INFO] \- com.h2database:h2:jar:1.4.197:compile
+```
+After looking our previous exception it is seen that the missing package is `jakarta.transaction-api`. From here it is easy to guess that all of this dependencies should appear in the class path.
+
+The next thing I will to try to do is to run the maven project and read the documentation about the compiler plugin. As the [documentation](https://maven.apache.org/plugins/index.html) states, Maven is a _plugin execution framework_ so it is a good idea to review how the compile plugin works. Understanding how Maven compiles your code, could you help to understand more clearly how _Gradle_ works.
 
 How Maven `compile` works: `javac` command
 ===========================================================
 Before to understand this, you need to know that Maven process software sets by means of [lifecycles](https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html). Basically, one _lifecycle_ are all the steps you repetively do when you want to release a software application e.g. clean (filter .gitignore), generate code (DTO classes generation), run tests, produce code insights, compile and finally package.
 
-The base project provided with _Hibernate_ has the following folder structure. Note that the only available code is located in the `test` folder. This was one of the main reasons of this research, because I think that if you want to run a piece of code, it is better if it runs without bloatware, in this case the _Junit_ Java testing framework. Our aim the in the following is to run this minimal example directly, without relying on _Maven_ or the unit testing framework _JUnit_.
+The base project provided with _Hibernate_ has the following folder structure. Note that the only available code is located in the `test` folder. Recalling the introduction, this was one of the main reasons of this research, because I think that if you want to run a piece of code, it is better if it runs without bloatware, in this case the _Junit_ Java testing framework. Our aim the in the following is to run this minimal example directly, without relying on _Maven_ or the unit testing framework _JUnit_.
 
 ```sh
 ├── basic
@@ -120,7 +212,9 @@ The previously listed command has the following structure:
 -source 1.8
 ```
 
-In order modify and test the commands quickly I used [argument files](https://docs.oracle.com/en/java/javase/17/docs/specs/man/javac.html#command-line-argument-files). These are the argument files:
+'Manual' compilation
+---------------------------------------
+Having the commands employed by the Maven compiler, I can proceed with my own manual compilation. In order modify and test the commands quickly I used [argument files](https://docs.oracle.com/en/java/javase/17/docs/specs/man/javac.html#command-line-argument-files). These are the argument files:
 
 ### cls.argc
 ```
@@ -166,8 +260,13 @@ Since our classes are located withing the default package (no package declaratio
 java @../opt.arg
 ```
 
-
 Some notes about execution
 ---------------------------------------
 - When you run the compiled classes outside the output folder `target`, is expected that the classes are packaged i.e. the path you provide to run the classes `java target\ClassName` is interpreted as a package name and should match the package declarations on each source file e.g. `package target;`. 
 - When running the application with `java` command, _classpath_ should be declared first before the main class.
+
+
+Conclusion
+===========================================================
+If you try to run by hand (i.e. without building tools assistance) projects that have several dependencies, you will end figuring out the dependency tree of the project. This will have in the end a satisfying result; you get a bunch of software dependencies interacting each other by hand. However this could consume a lot of time to you. I could explain this phenomena from the point that the software nowadays is being developed with the help of dependency managers and build tools, and in the long run this tools become part of the end artifact. So, an advice for the beginners is to understand how the building tools works behind the scenes, since after some time you will end writting complex software.
+In the other hand, the excercise of running the software at the bare minimum, helps you to understand how the software that you are currently using works. It something similar to analogy of the preference in being the passanger or the driver when you want to know to drive your own car.
