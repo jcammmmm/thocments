@@ -21,5 +21,6 @@
    ```
    git clone ssh:\\url.toyour.repo
    ```
+6. If your want to push your changes, verify that the remote is point with an ssh URL e.g. `git@github.com:<username>/<repository>`
 
 ## Linux

@@ -1,5 +1,5 @@
 Purpose
-=================================================
+==========================================================
 In order to make explicit the significant role of _Hibernate_, in this guide I will run the examples provided in the [user guide](https://docs.jboss.org/hibernate/orm/6.2/userguide/html_single/Hibernate_User_Guide.html). The big difference of this guide from others is that I ran _Hibernate_ as terminal application and as a standalone library without mixing it with other frameworks. If you run the offcial examples that came with the [Getting Started](https://docs.jboss.org/hibernate/orm/6.2/quickstart/html_single/) you can get confused since the minimal examples are being executed on top of the _JUnit_ testing framework.
 
 A minimal example
@@ -66,9 +66,17 @@ cd target && java -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=
 ```
 2. Open another terminal emulator and connect to the debugging session:  
 ```sh
-jdb -attach 9393 -sourcepath /home/jcammmmm/repo.m/thocments/java-hibernate/src
+jdb -attach 9393 -sourcepath .:/home/jcammmmm/repo.m/thocments/java-hibernate/src/:/home/jcammmmm/.m2/repository/org/hibernate/orm/hibernate-core/6.0.0.CR2/:/home/jcammmmm/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.0.0/:/home/jcammmmm/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.0/:/home/jcammmmm/.m2/repository/org/jboss/logging/jboss-logging/3.4.3.Final/:/home/jcammmmm/.m2/repository/org/jboss/jandex/2.4.2.Final/:/home/jcammmmm/.m2/repository/com/fasterxml/classmate/1.5.1/:/home/jcammmmm/.m2/repository/org/hibernate/common/hibernate-commons-annotations/6.0.0.CR1/:/home/jcammmmm/.m2/repository/net/bytebuddy/byte-buddy/1.12.7/:/home/jcammmmm/.m2/repository/jakarta/activation/jakarta.activation-api/2.0.1/:/home/jcammmmm/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/3.0.1/:/home/jcammmmm/.m2/repository/com/sun/activation/jakarta.activation/2.0.1/:/home/jcammmmm/.m2/repository/org/glassfish/jaxb/jaxb-runtime/3.0.2/:/home/jcammmmm/.m2/repository/org/glassfish/jaxb/jaxb-core/3.0.2/:/home/jcammmmm/.m2/repository/org/glassfish/jaxb/txw2/3.0.2/:/home/jcammmmm/.m2/repository/com/sun/istack/istack-commons-runtime/4.0.1/:/home/jcammmmm/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.0/:/home/jcammmmm/.m2/repository/org/antlr/antlr4-runtime/4.9.1/:/home/jcammmmm/.m2/repository/org/slf4j/slf4j-simple/1.7.5/:/home/jcammmmm/.m2/repository/org/slf4j/slf4j-api/1.7.5/:/home/jcammmmm/.m2/repository/junit/junit/4.13.2/:/home/jcammmmm/.m2/repository/org/hamcrest/hamcrest-core/1.3/:/home/jcammmmm/.m2/repository/com/h2database/h2/1.4.197/
 ```
 3. Sample commands when you are in a debugging session
 ```
-stop at NativeApiIllustrationTest:51
+stop at NativeApiIllustrationTest:52
 ```
+
+A minimal example
+===========================================================
+
+
+
+
+_The Hibernate Session, like the Jakarta Persistence EntityManager, is not a thread-safe object and it is intended to be confined to a single thread at once. If the Session is shared among multiple threads, there will be race conditions as well as visibility issues, so beware of this._

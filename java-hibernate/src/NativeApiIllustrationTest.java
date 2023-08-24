@@ -39,7 +39,6 @@ public class NativeApiIllustrationTest {
 	private SessionFactory sessionFactory;
 	
 	public static void main(String[] args) throws Exception {
-		System.out.println("buahahahah");
 		NativeApiIllustrationTest app = new NativeApiIllustrationTest();
 		
 		app.setUp();
@@ -71,6 +70,8 @@ public class NativeApiIllustrationTest {
 
 	@SuppressWarnings("unchecked")
 	public void testBasicUsage() {
+		System.out.println("\n\n=====================================================>");
+		System.out.println("=====================================================>");
 		// create a couple of events...
 		System.out.println(sessionFactory);
 		Session session = sessionFactory.openSession();

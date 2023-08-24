@@ -13,6 +13,10 @@ phenomena.
 ### Electric Arc
 When you have a high voltage (electric differenctial potential) that it is separed by an insultor and due this high potential this insulator becames a conductor (electric breakdown) the space that allow the current movement from high potential to low potential is called electric arc.
 
+### DCEP vs DCEN
+* DC Electrode positive: more penetration
+* DC Electrode negative: less penetration, for thin material
+
 Welding Machine specs
 =======================================
 If you buy your welding machine outside of trusted resellers it is easy to get scammed with fake machines.
