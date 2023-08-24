@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <style>
+    {{ styles }}
+  </style>
+  </head>
+  
+  <body> 
+  <!-- https://jinja.palletsprojects.com/en/3.0.x/templates/#base-template -->
+  <div class="row">
+    <div class="column-side">
+    </div>
+    <div class="column-content">
+      {{ content }}
+    </div>
+    <div class="column-side">
+    </div>
+  </div>
+
+  </body>
+
+  <script>
+    /***********************************************************************
+     * RESPONSIVENESS CONFIGURATION                                        *
+     ***********************************************************************/
+    // var ismobile = navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i);
+    let sides = document.getElementsByClassName("column-side");
+    let content = document.getElementsByClassName("column-content")[0];
+
+    var w = window.innerWidth;
+    var h = window.innerHeight; 
+    if (w/h < 1) {
+      sides[0].classList.remove("column-side");
+      sides[0].classList.remove("column-side");
+      content.classList.remove("column-content");
+    } 
+  </script>
+</html>

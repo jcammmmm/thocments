@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <style>
+    /* Create three equal columns that floats next to each other */
+.column-content {
+	float: left;
+	width: 50%;
+	padding: 10px;
+  }
+  
+  .column-side {
+	float: left;
+	width: 25%;
+	padding: 10px;
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+	content: "";
+	display: table;
+	clear: both;
+  }
+  
+  blockquote p {
+	/* text-align: justify; */
+	font-size: 11pt;
+	font-style: oblique;
+  }
+  
+  blockquote p:first-child {
+	/* text-align: justify; */
+	font-size: 12pt;
+  }
+  
+  table {
+	margin: 0 auto; /* centers the table */
+  }
+  
+  th {
+	padding-right: 30px;
+  }
+  
+  img {
+	width: 100%;
+	height: auto;
+  }
+  
+  /* IMPORTANT!
+   * This is a quick fix in order to left-align your equations. Because
+   * linebreaks does not work in version 3.2.
+   * see
+   * https://github.com/mathjax/MathJax/issues/2312
+   */
+  mjx-mtd {
+	display: table-cell;
+	text-align: left !important;
+	padding: .215em .4em;
+  }
+  
+  /**
+   * REMOVES underlining for links
+   */
+  a:link { text-decoration: none; }
+  a:visited { text-decoration: none; }
+  a:hover { text-decoration: none; }
+  a:active { text-decoration: none; }
+  
+  body { 
+	font-family: "Computer Modern Serif", serif;
+	font-size: large;
+  }
+  
+  .post-listing-entry {
+	margin-bottom: 1em;
+  }
+  
+  .post-listing-title {
+	margin: 0;
+  }
+  
+  .post-listing-descr {
+	margin-top: 0.5em;
+	margin-bottom: 0;
+  }
+  
+  /************************************************************************
+   * FONTS                                                                *
+   ***********************************************************************/
+   @font-face {
+	  font-family: 'Computer Modern Serif';
+	  src:  url('../assets/fonts/cmunrm.eot');
+	  src:  url('../assets/fonts/cmunrm.eot?#iefix') format('embedded-opentype'),
+			  url('../assets/fonts/cmunrm.woff') format('woff'),
+			  url('../assets/fonts/cmunrm.ttf') format('truetype'),
+			  url('../assets/fonts/cmunrm.svg#cmunrm') format('svg');
+	  font-weight: normal;
+	  font-style: normal;
+  }
+  
+  
+  @font-face {
+	  font-family: 'Computer Modern Serif';
+	  src:  url('../assets/fonts/cmunbx.eot');
+	  src:  url('../assets/fonts/cmunbx.eot?#iefix') format('embedded-opentype'),
+			  url('../assets/fonts/cmunbx.woff') format('woff'),
+			  url('../assets/fonts/cmunbx.ttf') format('truetype'),
+			  url('../assets/fonts/cmunbx.svg#cmunbx') format('svg');
+	  font-weight: bold;
+	  font-style: normal;
+  }
+  
+  
+  @font-face {
+	  font-family: 'Computer Modern Serif';
+	  src:  url('../assets/fonts/cmunti.eot');
+	  src:  url('../assets/fonts/cmunti.eot?#iefix') format('embedded-opentype'),
+			  url('../assets/fonts/cmunti.woff') format('woff'),
+			  url('../assets/fonts/cmunti.ttf') format('truetype'),
+			  url('../assets/fonts/cmunti.svg#cmunti') format('svg');
+	  font-weight: normal;
+	  font-style: italic;
+  }
+  
+  
+  @font-face {
+	  font-family: 'Computer Modern Serif';
+	  src:  url('../assets/fonts/cmunbi.eot');
+	  src:  url('../assets/fonts/cmunbi.eot?#iefix') format('embedded-opentype'),
+			  url('../assets/fonts/cmunbi.woff') format('woff'),
+		  url('../assets/fonts/cmunbi.ttf') format('truetype'),
+		  url('../assets/fonts/cmunbi.svg#cmunbi') format('svg');
+	  font-weight: bold;
+	  font-style: italic;
+  }
+  </style>
+  </head>
+  
+  <body> 
+  <!-- https://jinja.palletsprojects.com/en/3.0.x/templates/#base-template -->
+  <div class="row">
+    <div class="column-side">
+    </div>
+    <div class="column-content">
+      <h1 id="intro">Intro</h1>
+<p>In this text I will describe my journey trying to debug one of the most used web server software in the world <a href="https://tomcat.apache.org/">Apache Tomcat</a>. Beyond of being one of the most used web server software, it also implements several of the tools that makes part of the Jakarta EE (previously Java 2E) ecosystem. 
+First I will clone the main project repository hosted publicly on GitHub. Then I will read the build documentation and run some of the tests. After that I will try to find how the webserver manages the internal Servlet and how this web server manages concurrency, on of the topics that interests me the most.
+So let's go and start this short journey. For now I expect to invest all the day on this. In the following series of articles I will disect SpringBoot base servlet and show how integrates with tomcat.</p>
+<h1 id="environment-setup">Environment Setup</h1>
+<p>Tomcat is developed with Java techonology so having a JDK installed is mandatory. I opt to install OpenJDK from <a href="https://packages.debian.org/bullseye/default-jre">here</a>.</p>
+<h1 id="cloning">Cloning</h1>
+<p>For this I will clone the project from its public mirror on <a href="https://github.com/apache/tomcat">GitHub</a>. When you read the documentation you will reach serveral repositories, but most of them are addon feature software added to <em>Tomcat</em> software core.</p>
+<ol>
+<li>Clone the repository:
+    <code>sh
+    git clone https://github.com/apache/tomcat</code></li>
+</ol>
+<h1 id="building">Building</h1>
+<p>The main file that contains the building steps is <code>BUILDING.txt</code>. Note that markdown or some more broader documentation style is used in apache tomcat, this let see us how old is the project, or at least the style of the people that leads the project. In this file you will encounter several values enclosed between <code>@</code> symbols. These values are defined in <code>build.xml</code> its inner values are taken from <code>build.properties.default</code>.</p>
+<p>The build system employed is <a href="https://ant.apache.org/">Apache Ant</a> version <code>1.10.2</code>. Such version was downloaded from <a href="https://archive.apache.org/dist/ant/binaries/">here</a>. </p>
+<p>The developers recomend to override some of the configurations found in <code>build.properties.default</code> in file called <code>build.properties</code>. This file will be placed at the seme level that <code>build.properties.default</code>. Ant should be available from the <code>PATH</code> environment variable so there is no need to modify the <code>build.properties</code> config file. The install steps of Ant are as usuall: download, extract and point append the installation path to the <code>PATH</code> environment variable.</p>
+<p>To build the project is only need to run the command <code>ant</code> in the terminal when you are located at the root of the source code repository. When executed this a redirect error appeared. There was invalid the redirect from the legacy HTTP dependency to the new HTTPS. To avoid wasting time on this, I downloaded the redirected dependency <code>ecj-4.20</code> to a folder where the project dependencies are being dowloaded following the pattern that previously dowloaded dependencies followed. After that the project got built sucessfully.</p>
+<p>The build logs can be found with this document <a href="build.log">here</a> <strong>TODO</strong>: Write an analysis of the build after reading the build logs.</p>
+<p>Compared to another software such as corporative software that I have been written, and the other source I have read (Blender or projectm) Apache Tomcat is pretty easy to setup and build. In fact the documentation says that if you want to update the fully functional executable, is only need to update the repository with git and run the Ant builder again.</p>
+<p>Note that there are several types of build. The text written above comments about an standar <code>deploy</code> build. If you want for example to build the documentation or a debug build you should try the approach commented below.</p>
+<h1 id="running">Running</h1>
+<p>I always used Tomcat as an embedded webserver for microservices and also as already setted up software for running the applications that I wrote. For that reason I will provide here details on how you can run an standole webserver based on Tomcat.</p>
+<p>The <code>RUNNING.txt</code> file comments that is needed to setup the <code>CATALINA_HOME</code> environment variable to point the root folder that contains the Apache Tomcat executables (Section 2. Note b) at the end). So after building our webserver software I will point this variable to <code>/home/jcammmmm/repo.o/tomcat/output/build</code>.</p>
+<p>A recurrent trick here is running <code>source ~/.profile</code> each time that you create a new global environment variable in <code>.profile</code> file. After that issue <code>$CATALINA_HOME/bin/startup.sh</code> in your terminal and the webserver will start up <img alt="img" src="./pic1-webserverup">. </p>
+<p>To stop the webserver issue a <code>%CATALINA_HOME%\bin\catalina.bat stop</code> and you will be done.</p>
+<h1 id="running-tomcat-junit-tests">Running Tomcat JUnit Tests</h1>
+<p>Following the documentation, you must specify the test cases to run in the <code>build.properties</code> file. For example:
+    <code>properties
+    test.entry=org.apache.catalina.util.TestServerInfo</code>
+and then running Ant in test mode.
+    <code>sh
+    ant test</code></p>
+<p>After hitting enter the logs will display that new dependencies are being downloaded. Also the logs show that three sets of tests were executed: nio, nio2 and apr; the Tomcat connectors. A connector is a piece of software that lets Catalina behave as a standole webserver and also execute servelts, in fact this software is the component that actually listens the TCP connections.
+The output results of this unit test are output to <code>output/build/bin</code>.</p>
+<h2 id="analysis-expression-lang-test">Analysis Expression Lang Test</h2>
+<p>The unitest for <code>org.apache.el.lang.TestELArithmetic</code> basically test the code that performs the arithmetic on <em>expression language</em>, the imperative code that can be embedded on XML templates that represents server side UIs. For example, tests how the code handles <code>null</code> operators, big integer quantities, empty string operators, dot-without-zero notation and a bug <code>47371</code>.</p>
+<h2 id="analysis-of-max-connections-test">Analysis of Max Connections test</h2>
+<p>With this test is easy to see that at this level is Apache Tomat who provides the concurrency handling on the server, not the server. I expect that this idea will develop better below and when springboot will be debugged. 
+When I think of concurrency I'm thinking about how several HTTP requests are performed in parallel; session concurrency i.e. serveral clients talking with the server is handled with cookies since HTTP is a stateless protocol.
+Up to now the <code>build.properties</code> file looks like this:
+    <code>base.path=/home/jcammmmm/Downloads/tomcat-build-libs
+    test.entry=org.apache.catalina.connector.TestMaxConnections
+    # test.entry.methods=testMultiply01,testMultiply02</code>
+The log output revealed that the max connections test failed 2 test for the <code>apr</code> connector. Trying to understand the error I got how the Tomcat-Servlet relationship is forged.</p>
+<h2 id="many-servlets-per-connector">Many servlets per connector?</h2>
+<p>While debugging I found that when the connector is defined in the tomcat instance one attribute on its definition is the number of threads. Up to here we have that one Tomcat has many connectors, but the question now is, each conector has one servlet instance. My guess is that for each connector you would have one servlet. To reach there I need to find how the connector passes the request to the servlet.</p>
+<p>While I was reviewing how can I debug the test cases, I found that this project uses JaCoCo to produce coverage reports for the unit tests. So in further sections I will try to find the html output of those reports.</p>
+<p>From <code>build.properties</code> the property <code>compile.debug</code>controls if <code>javac</code> should output debug binaries. Compared with C/C++ in java we need to generate debug information when the compilation is made. This configuration is made in the <code>javac</code> ant <a href="https://ant.apache.org/manual/Tasks/javac.html">task</a>.</p>
+<p>I do not like to get bogged down when you can do the stuff directly without putting over and over other abstraction layers, such as for example an IDE and the pluggins required to do debugging or code inspection. For instance, now I am using Visual Studio code without any linters or Java language processors, I think that only for this quest the search-in-all-files utility and being able to run the code is sufficient.</p>
+<h2 id="jdb">JDB</h2>
+<p>Running an standalone application in debug mode is in some extend easy once you want to debug the unit tests. After reading some posts here and <a href="https://stackoverflow.com/questions/13680257/trying-to-run-ant-junit-target-in-debug-mode-in-eclipse">there</a> the trick to begin a debuging session with <code>jdb</code> is to run those test in a new JVM, then the trick is to get attached to that process. To achieve that, when you build box is Ant, you should fork your <code>JUnit</code> Ant task. Fortunatelly, when the <code>runtest</code> task is defined in the <code>build.xml</code> file the configure this needed fork:</p>
+<pre><code class="language-xml">  ...
+  &lt;macrodef name=&quot;runtests&quot;
+            description=&quot;Runs the unit tests using the specified connector.
+              Does not stop on errors, but sets 'test.result.error' and 'test.result.failure' properties.&quot;&gt;
+    ...
+    &lt;sequential&gt;
+        ...
+        &lt;junit printsummary=&quot;yes&quot; fork=&quot;yes&quot; dir=&quot;.&quot; showoutput=&quot;${test.verbose}&quot;
+          errorproperty=&quot;test.result.error&quot;
+          failureproperty=&quot;test.result.failure&quot;
+          haltonfailure=&quot;${test.haltonfailure}&quot;
+          threads=&quot;${test.threads}&quot;&gt;
+    ...
+        &lt;/junit&gt;
+    &lt;/sequential&gt;
+  &lt;/macrodef&gt;
+</code></pre>
+<p>As you can see the <code>forkmode</code> attribute is not configured, so the defaut behavior is to launch a new JVM instance per test. Having that set up I will launch again the Tomcat webserver and see what changes on my process manager. Due to the test takes time I was able to take the following screenshot that shows that a new process was created to run the new set of <code>test-nio2</code> test when <code>tert-nio</code> was completed.</p>
+<p>To attach to this newly created JVM I will add a couple of configurations to the <code>junit</code> task listed above by adding a couple of nested <code>jvmarg</code> <a href="https://ant.apache.org/manual/Tasks/junit.html">tags</a>. In order to attach JDB to a running JVM, this JVM should be start with a couple of paramaters that are described <a href="https://docs.oracle.com/en/java/javase/11/tools/jdb.html">here</a>:</p>
+<pre><code class="language-sh">java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=9393 MyClass
+</code></pre>
+<p>Now the application logs display this new line:</p>
+<pre><code class="language-log">[junit] Listening for transport dt_socket at address: 54659
+</code></pre>
+<p>And after trying to attach to that port, this is the result:</p>
+<pre><code class="language-log">jcammmmmm@laptop: jdb -attach 9939
+Set uncaught java.lang.Throwable
+Set deferred uncaught java.lang.Throwable
+Initializing jdb ...
+&gt; 
+The application exited
+</code></pre>
+<p>The trick here may to put a breakpoint on the <code>TestMaxConnections</code> class, and wait to the debugger to stay there. After visiting this awesome <a href="https://people.apache.org/~csutherl/ApacheCon%20NA%202019/Tips%20for%20Debugging%20Tomcat%20and%20Web%20Applications%20(2019).pdf">slides</a>, I see that the programmer set the <code>JPDA_SUSPEND</code> script variable to <code>y</code>. After following the core script <code>catalina.sh</code> I found that this variable is modifying the <code>agentlib</code> argument that is being passed to the JVM in order to be debuggeable. Then, the updated and working attribute added to the <code>build.xml</code> file looks like this:</p>
+<pre><code class="language-xml">    &lt;junit printsummary=&quot;yes&quot; fork=&quot;yes&quot; dir=&quot;.&quot; showoutput=&quot;${test.verbose}&quot;
+          errorproperty=&quot;test.result.error&quot;
+          failureproperty=&quot;test.result.failure&quot;
+          haltonfailure=&quot;${test.haltonfailure}&quot;
+          threads=&quot;${test.threads}&quot;&gt;
+      ...
+      &lt;jvmarg value=&quot;-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=9939&quot;/&gt;
+      ...
+    &lt;/junit&gt;
+
+</code></pre>
+<p>Please note in this listing the the <code>suspend</code> attrib being set to <code>y</code> and the port configured through the <code>address</code> attribute. 
+After playing a couple of minutes with the debugger I found that in order to put a breakpoint you should specify the fully qualified name of the class, in our case <code>org.apache.catalina.connector.TestMaxConnections</code> in order to be able to step through that code:</p>
+<pre><code class="language-jdb">stop in org.apache.catalina.connector.TestMaxConnections.testConnector()
+cont
+</code></pre>
+<p>After issuing a <code>where</code> command within the JDB session this is the output:</p>
+<pre><code class="language-jdb">main[1] where
+  [1] org.apache.catalina.connector.TestMaxConnections.testConnector (TestMaxConnections.java:49)
+  [2] jdk.internal.reflect.NativeMethodAccessorImpl.invoke0 (native method)
+  [3] jdk.internal.reflect.NativeMethodAccessorImpl.invoke (NativeMethodAccessorImpl.java:62)
+  [4] jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke (DelegatingMethodAccessorImpl.java:43)
+  [5] java.lang.reflect.Method.invoke (Method.java:566)
+  [6] org.junit.runners.model.FrameworkMethod$1.runReflectiveCall (FrameworkMethod.java:59)
+  [7] org.junit.internal.runners.model.ReflectiveCallable.run (ReflectiveCallable.java:12)
+  [8] org.junit.runners.model.FrameworkMethod.invokeExplosively (FrameworkMethod.java:56)
+  [9] org.junit.internal.runners.statements.InvokeMethod.evaluate (InvokeMethod.java:17)
+  [10] org.junit.internal.runners.statements.RunBefores.evaluate (RunBefores.java:26)
+  [11] org.junit.internal.runners.statements.RunAfters.evaluate (RunAfters.java:27)
+  [12] org.junit.rules.TestWatcher$1.evaluate (TestWatcher.java:61)
+  [13] org.junit.runners.ParentRunner$3.evaluate (ParentRunner.java:306)
+  [14] org.junit.runners.BlockJUnit4ClassRunner$1.evaluate (BlockJUnit4ClassRunner.java:100)
+  [15] org.junit.runners.ParentRunner.runLeaf (ParentRunner.java:366)
+  [16] org.junit.runners.BlockJUnit4ClassRunner.runChild (BlockJUnit4ClassRunner.java:103)
+  [17] org.junit.runners.BlockJUnit4ClassRunner.runChild (BlockJUnit4ClassRunner.java:63)
+  [18] org.junit.runners.ParentRunner$4.run (ParentRunner.java:331)
+  [19] org.junit.runners.ParentRunner$1.schedule (ParentRunner.java:79)
+  [20] org.junit.runners.ParentRunner.runChildren (ParentRunner.java:329)
+  [21] org.junit.runners.ParentRunner.access$100 (ParentRunner.java:66)
+  [22] org.junit.runners.ParentRunner$2.evaluate (ParentRunner.java:293)
+  [23] org.junit.internal.runners.statements.RunBefores.evaluate (RunBefores.java:26)
+  [24] org.junit.internal.runners.statements.RunAfters.evaluate (RunAfters.java:27)
+  [25] org.junit.runners.ParentRunner$3.evaluate (ParentRunner.java:306)
+  [26] org.junit.runners.ParentRunner.run (ParentRunner.java:413)
+  [27] junit.framework.JUnit4TestAdapter.run (JUnit4TestAdapter.java:50)
+  [28] org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.run (JUnitTestRunner.java:536)
+  [29] org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.launch (JUnitTestRunner.java:1,205)
+  [30] org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.main (JUnitTestRunner.java:1,048)
+</code></pre>
+<p>When I try to navigate through the code this is the output:</p>
+<pre><code class="language-jdb">main[1] list
+Source file not found: TestMaxConnections.java
+</code></pre>
+<p>By adding <code>-sourcepath dir1:dir2</code> you will indicate JDB where to look for source files and by then the posibility to navigate the code wiht <code>list</code> command.</p>
+<pre><code>jdb -attach 9939 -sourcepath /home/jcammmmm/repo.o/tomcat/test/
+</code></pre>
+<p>This is a good oportunity to put here the available commands on JDB:</p>
+<pre><code>threads - list threds, 
+where, wherei - will show the call stack,
+up, down - descend, ascend in the call stack
+print, dump, eval, locals - display current values
+stop in, stop at - put a breakpoint
+clear :, clear . - remove breakpoint, and display breakpoints
+trace, untrace - tstop in method entry/exited
+step, step up, stepi, next, cont - control execution
+use - change the sourcepath
+classpath - display the current classpath
+classes - list all clases loaded up to now
+lock, threadlocks - 
+</code></pre>
+<p>While debugging the app, I found that sources where missing to display the listing, in particular for <code>jakarta.servlet.http.HttpServlet.java</code> class. In order to provide those source to JDB and also make them available to me, now I'm just finding the package that holds that code. After issuing <code>classpath</code> command this was the output (formatted):</p>
+<pre><code>/home/jcammmmm/repo.o/tomcat/output/build/webapps/examples/WEB-INF/classes
+/home/jcammmmm/repo.o/tomcat/output/testclasses
+/home/jcammmmm/repo.o/tomcat/output/i18n
+/home/jcammmmm/Downloads/tomcat-build-libs/junit-4.13.2/junit-4.13.2.jar
+/home/jcammmmm/Downloads/tomcat-build-libs/hamcrest-2.2/hamcrest-2.2.jar
+/home/jcammmmm/Downloads/tomcat-build-libs/easymock-4.3/easymock-4.3.jar
+/home/jcammmmm/Downloads/tomcat-build-libs/cglib-3.3.0/cglib-nodep-3.3.0.jar
+/home/jcammmmm/Downloads/tomcat-build-libs/objenesis-3.3/objenesis-3.3.jar
+/home/jcammmmm/Downloads/tomcat-build-libs/unboundid-6.0.6/unboundid-ldapsdk-6.0.6.jar
+/home/jcammmmm/Downloads/tomcat-build-libs/derby-10.16.1.1/derby-10.16.1.1.jar
+/home/jcammmmm/Downloads/tomcat-build-libs/derby-10.16.1.1/derby-shared-10.16.1.1.jar
+/home/jcammmmm/Downloads/tomcat-build-libs/derby-10.16.1.1/derby-tools-10.16.1.1.jar
+/home/jcammmmm/Downloads/tomcat-build-libs/bnd-6.3.1/biz.aQute.bnd-6.3.1.jar
+/home/jcammmmm/Downloads/tomcat-build-libs/ecj-4.20/ecj-4.20.jar
+/home/jcammmmm/Downloads/tomcat-build-libs/jaxrpc-1.1-rc4/geronimo-spec-jaxrpc-1.1-rc4.jar
+/home/jcammmmm/Downloads/tomcat-build-libs/wsdl4j-1.6.3/wsdl4j-1.6.3.jar
+/home/jcammmmm/Downloads/tomcat-build-libs/migration-1.0.4/jakartaee-migration-1.0.4-shaded.jar
+/home/jcammmmm/repo.o/tomcat/output/classes
+/opt/apache-ant-1.10.2/lib/ant-launcher.jar
+/opt/apache-ant-1.10.2/lib/ant.jar
+/opt/apache-ant-1.10.2/lib/ant-junit.jar
+/opt/apache-ant-1.10.2/lib/ant-junit4.jar
+</code></pre>
+<p>So, basically we see that it cames from mainly three parts: 1. our compilation output, 2. the downloaded libraries and our recently Apache Ant instalation. In order to provide a good dependency analysis here there are the dependencies explained and their purporse:
+* <strong>junit</strong>: Unit testing
+* <strong>hamcrest</strong>: Unit testing and assertion <a href="https://hamcrest.org/JavaHamcrest/tutorial">tool.</a>
+* <strong>easymock</strong>: Unit testing and mocking <a href="https://easymock.org/">tool.</a>. (Read the what section.)
+* <strong>cglib</strong>: Transform and generation of Java bytecode <a href="https://github.com/cglib/cglib">tool.</a>
+* <strong>objenesis</strong>: Helps to instantiate a new object of particular class. Docs <a href="https://github.com/cglib/cglib">here.</a>
+* <strong>unboundid</strong>: Software to communicate with LDAP servers. <a href="https://github.com/pingidentity/ldapsdk">Docs here.</a>
+* <strong>derby</strong>: Relational database entirely implemented in Java. <a href="https://db.apache.org/derby/">Docs.</a>
+* <strong>bnd</strong>: Helps to bundle Java software in a modular fashion following OSGi. <a href="https://bnd.bndtools.org/chapters/110-introduction.html">Docs.</a> <a href="https://enroute.osgi.org/FAQ/520-bnd.html">About OSGi</a> and bnd. 
+* <strong>ecj</strong>: The Eclipse Standalone <a href="https://projectlombok.org/setup/ecj">Compiler</a>
+* <strong>jaxrpc</strong>: Java APIs for XML-based Remote Procedure Call. More <a href="https://www.oracle.com/technical-resources/articles/javase/getstartjaxrpc.html">here.</a>
+* <strong>wsdl</strong>: Language to describe SOAP based webservices.
+* <strong>jakartaee-migration</strong>: <em>"take a web application written for Java EE 8 that runs on Apache Tomcat 9 and convert it automatically so it runs on Apache Tomcat 10"</em> taken from <a href="https://mvnrepository.com/artifact/org.apache.tomcat/jakartaee-migration">here</a></p>
+<p>After doing this intensive research on what this libraries do, I realize that Tomcat is in fact the implation of <em>Jakarta Servlet</em>, <em>Jakarta Expression Language (EL)</em> and <em>Websocket technologies</em> ([more here]https://en.wikipedia.org/wiki/Apache_Tomcat). Since, at the start of this debugging I only pointed out that the location of the source are here:</p>
+<pre><code>jdb -attach 9939 -sourcepath /home/jcammmmm/repo.o/tomcat/test/
+</code></pre>
+<p>I will point the debugger to look for source into the non-test sources: <code>/java</code>. Issuing the following command into the JDB:</p>
+<pre><code>sourcepath /home/jcammmmm/repo.o/tomcat/java:/home/jcammmmm/repo.o/tomcat/test
+</code></pre>
+<p>This is the complete command:</p>
+<pre><code>jdb -attach 9939 -sourcepath /home/jcammmmm/repo.o/tomcat/test:/home/jcammmmm/repo.o/tomcat/java
+</code></pre>
+<p>Will give us the listing for the desired class <code>HttpServlet.java</code>!</p>
+<pre><code class="language-java">main[1] list
+94        private static final String HEADER_IFMODSINCE = &quot;If-Modified-Since&quot;;
+95        private static final String HEADER_LASTMOD = &quot;Last-Modified&quot;;
+96    
+97        private static final String LSTRING_FILE = &quot;jakarta.servlet.http.LocalStrings&quot;;
+98 =&gt;     private static final ResourceBundle lStrings = ResourceBundle.getBundle(LSTRING_FILE);
+99    
+100        private static final Set&lt;String&gt; SENSITIVE_HTTP_HEADERS = new HashSet&lt;&gt;();
+101    
+102        private final transient Object cachedAllowHeaderValueLock = new Object();
+</code></pre>
+<h2 id="debugging-several-threads">Debugging several threads</h2>
+<p>When you start JDB you will be placed on the main thread by default. You can switch to the other threads by typing <code>thread id</code> where <code>id</code> is the hexadecimal number that appears right next to thread type when you type <code>thread</code>. In the following of this section I will describe briefly what each thread does. </p>
+<p>After the <code>init()</code> method call several threads are created per each connector, for Catalina and a master parent thread:</p>
+<pre><code>  (org.apache.tomcat.util.threads.TaskThread)0xa62 http-nio2-127.0.0.1-auto-1-exec-1  cond. waiting
+  (org.apache.tomcat.util.threads.TaskThread)0xa63 http-nio2-127.0.0.1-auto-1-exec-2  cond. waiting
+  (org.apache.tomcat.util.threads.TaskThread)0xa64 http-nio2-127.0.0.1-auto-1-exec-3  cond. waiting
+  (org.apache.tomcat.util.threads.TaskThread)0xa65 http-nio2-127.0.0.1-auto-1-exec-4  cond. waiting
+  (org.apache.tomcat.util.threads.TaskThread)0xa66 http-nio2-127.0.0.1-auto-1-exec-5  cond. waiting
+  (org.apache.tomcat.util.threads.TaskThread)0xa67 http-nio2-127.0.0.1-auto-1-exec-6  cond. waiting
+  (org.apache.tomcat.util.threads.TaskThread)0xa68 http-nio2-127.0.0.1-auto-1-exec-7  cond. waiting
+  (org.apache.tomcat.util.threads.TaskThread)0xa69 http-nio2-127.0.0.1-auto-1-exec-8  cond. waiting
+  (org.apache.tomcat.util.threads.TaskThread)0xa6a http-nio2-127.0.0.1-auto-1-exec-9  cond. waiting
+  (org.apache.tomcat.util.threads.TaskThread)0xa6b http-nio2-127.0.0.1-auto-1-exec-10 cond. waiting
+  (java.lang.Thread)0xa7c                          Thread-1                           running
+  (org.apache.tomcat.util.threads.TaskThread)0xb08 Catalina-utility-1                 running
+  (org.apache.tomcat.util.threads.TaskThread)0xb0d Catalina-utility-2                 running
+
+</code></pre>
+<p>So this threads are created to support the testing framework:</p>
+<pre><code>Group system:
+  (java.lang.ref.Reference$ReferenceHandler)0x1ec Reference Handler running
+  (java.lang.ref.Finalizer$FinalizerThread)0x1ed  Finalizer         cond. waiting
+  (java.lang.Thread)0x1ee                         Signal Dispatcher running
+Group main:
+  (java.lang.Thread)0x1                           main              running
+Group InnocuousThreadGroup:
+  (jdk.internal.misc.InnocuousThread)0x1ef        Common-Cleaner    cond. waiting
+
+</code></pre>
+<h2 id="tomcat-thread-hierarchy">Tomcat thread hierarchy</h2>
+<p>In order to see how the connectors are ins2tanced, we need to see how the Tomcat server object starts. <code>start()</code> implementation is located in <code>LifecycleBase.java</code> file, here is the base implementation of <code>Lifecycle.java</code> interface.</p>
+<p>Now we are debugging the tomcat startup to see how the connectors are instantiated. This debug is being performed from a unit testing code called <code>TestMaxConnections.java</code>. From there, I put a break point in <code>org.apache.catalina.startup.Tomcat.start()</code> method. From the code review it seems that there is only one connector, the HTTP connector, and for this connector are configured several threads. In order to proof this I will put a bread point at <code>stop in org.apache.catalina.startup.Tomcat.getConnector()</code>. After running the test, the connector is already instantiated, let's look for that. We know up to know that the connectors belongs to the inner <em>service</em> wrapped by the Tomcat instance. This service is initialized when a call to <code>Tomcat.getServer()</code> is made for first time. To see that I will restart the test case and put another breakpoint there: <code>stop in org.apache.catalina.startup.Tomcat.getServer()</code>.</p>
+<p>Since, we are debugging a test case, the initialization of Tomcat is being made in <code>TomcatBaseTest.java</code>. There, the connector is being created in the <code>setUp()</code> method. It is important to note here that the testing framework calls this method, before anything else. The protocol's kind <code>Http11NioProtocol</code> and it is being initialized as such because we are not providing another protocol in properties file.</p>
+<p>In order to arrive to our conclusion, we need to see where the max number of thread is being used. While researching on this I found that this property that is being setted to the <code>Connector</code> in fact is being setted to the <code>ProtocolHandler</code>. This property is being setted through java reflection utils. I was expecting a dictionary here it seems that they are changing the attribute of that handler.</p>
+<h2 id="why-reflection-utils">Why reflection utils</h2>
+<p>When I arrive to reflexive code in java it seems bizarre to me bacause, parsers and linters always show a warning. As expected the method that set the properties for a given object is annotated with <code>@SuppressWarnings</code>. After following the code quickly, I found that since no exception is thrown the attribute <code>maxThreads</code> in class <code>ProtocolHandler</code> is being setted. Why to set in that way? Because <code>maxConnections</code> is a property that is on top of a chain of abstract classes whose current type is hard to guess without to know in advance what what protocol is being used now.</p>
+<h2 id="endpoints-and-executor">Endpoints and Executor</h2>
+<p>After reading the <code>ProtocolHandler</code> code and arriving at <code>AbstractProtocol</code> code, I found the max threads property it is being setted in <code>Endpoint</code> class. The code documentation say that <code>Endpoint</code> program provides low level network I/O, so I think that our answer can be found in the object hierarchy that decends from <code>Endpoint</code> class. Something that can be reviewed is the generic relationship between <code>AbstractProtocol</code> and  <code>Endpoint</code>, but we are now focused on our main quest regarding how the several threads are created.</p>
+<p>AbstractEnpoint
+  - attrib is executor
+  - chain: TomcatBaseTest -&gt; Connector -&gt; ProtocolHandler -&gt; AbstractProtocol -&gt; AbstractEnpoint -&gt; Executor</p>
+<p>Tomcat <a href="https://tomcat.apache.org/tomcat-10.1-doc/api/index.html">Java docs</a></p>
+<p>stop in org.apache.tomcat.util.net.AbstractEndpoint.setMaxThreads(int)
+stop in org.apache.tomcat.util.net.AbstractEndpoint.createExecutor()</p>
+<p>Finally, I am about to complete this debug session, I learnend a lot on how the abstractions are employed to produce high performant production code. In fact the call stack that I'm debuggin is </p>
+<pre><code>stop in org.apache.tomcat.util.net.AbstractEndpoint.createExecutor()
+</code></pre>
+<p>Inside this method the worker threads will process the future requests that are being created. Now the handling and processing of requests will be handled by the pool of threads abstracted by this executor. In the end your endpoint will have one executor that will have many threads. How the tasks are passed to this worker threads is the purpose of the following section.</p>
+<h2 id="requests-poller-and-executor">Requests, Poller and Executor</h2>
+<p>Once the endpoint executor is created in <code>AbstractEndpoint.createExecutor()</code>, several threads are created and pooled. In fact they are exactly 10, as defined in the <code>TestMaxConnections</code> unit test. 
+Regarding to how several requests are fullfilled in parallel we need to recall again the unit test implementation and put some breakpoints there.</p>
+<pre><code>stop in org.apache.catalina.connector.TestMaxConnections$SimpleServlet.service(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse)
+</code></pre>
+<p>This is the call stack at the given breakpoint. As you may know it is not possible to know who is the parent thread that spawned the current thread at frame 20.</p>
+<pre><code class="language-log">  [1] org.apache.catalina.connector.TestMaxConnections$SimpleServlet.service (TestMaxConnections.java:137)
+  [2] jakarta.servlet.http.HttpServlet.service (HttpServlet.java:792)
+  [3] org.apache.catalina.core.ApplicationFilterChain.internalDoFilter (ApplicationFilterChain.java:223)
+  [4] org.apache.catalina.core.ApplicationFilterChain.doFilter (ApplicationFilterChain.java:158)
+  [5] org.apache.catalina.core.StandardWrapperValve.invoke (StandardWrapperValve.java:197)
+  [6] org.apache.catalina.core.StandardContextValve.invoke (StandardContextValve.java:97)
+  [7] org.apache.catalina.authenticator.AuthenticatorBase.invoke (AuthenticatorBase.java:542)
+  [8] org.apache.catalina.core.StandardHostValve.invoke (StandardHostValve.java:119)
+  [9] org.apache.catalina.valves.ErrorReportValve.invoke (ErrorReportValve.java:92)
+  [10] org.apache.catalina.core.StandardEngineValve.invoke (StandardEngineValve.java:78)
+  [11] org.apache.catalina.connector.CoyoteAdapter.service (CoyoteAdapter.java:356)
+  [12] org.apache.coyote.http11.Http11Processor.service (Http11Processor.java:399)
+  [13] org.apache.coyote.AbstractProcessorLight.process (AbstractProcessorLight.java:65)
+  [14] org.apache.coyote.AbstractProtocol$ConnectionHandler.process (AbstractProtocol.java:868)
+  [15] org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun (NioEndpoint.java:1,762)
+  [16] org.apache.tomcat.util.net.SocketProcessorBase.run (SocketProcessorBase.java:49)
+  [17] org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker (ThreadPoolExecutor.java:1,191)
+  [18] org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run (ThreadPoolExecutor.java:659)
+  [19] org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run (TaskThread.java:61)
+  [20] java.lang.Thread.run (Thread.java:829)
+</code></pre>
+<p>Now with this breakpoint I am attempting to find how the executor got called.</p>
+<pre><code>stop in org.apache.tomcat.util.threads.ThreadPoolExecutor.execute(java.lang.Runnable)
+</code></pre>
+<p>The thread handling the incoming requests to the server is <code>http-nio-127.0.0.1-auto-1-Poller</code>. After looking for the work <code>-Poller</code> in the source code I found that at <code>NioEndpoint.startInternal()</code> method a new thread is spawned and it will be running the <code>Runnable</code> class <code>Poller</code>. Here is the code snippet:</p>
+<pre><code class="language-java">  // Start poller thread
+  poller = new Poller();
+  Thread pollerThread = new Thread(poller, getName() + &quot;-Poller&quot;);
+  pollerThread.setPriority(threadPriority);
+  pollerThread.setDaemon(true);
+  pollerThread.start();
+</code></pre>
+<p><code>Poller</code> class is a nested class in <code>NioEndpoint</code> and expands roughly for 500 lines. When this poller object is instantiated, a call to <code>java.nio.channels.Selector.open()</code> is made. Please note that this is JDK software and that <code>nio</code> means Non-Blocking I/O. In the other hand after reading the JDK <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/channels/package-summary.html">docs</a> a <code>Selector</code> is a multiplexer. The Poller internally runs a <code>while(true)</code> loop. Here is a breakpoint in that loop:</p>
+<pre><code>stop in org.apache.tomcat.util.net.NioEndpoint$Poller.run()
+</code></pre>
+<p>You may think that between each loop you can lost requests, that is, while your are in the current iteration may be another requests can be arriving to the server and since they weren 't at the beginning of the loop they will be lost. The thing is that the requests are being placed in a request queue that are being processed in <code>NioEndpoint$Poller.events()</code> method.</p>
+<pre><code>stop in org.apache.tomcat.util.net.NioEndpoint$Poller.addEvent(org.apache.tomcat.util.net.NioEndpoint$PollerEvent)
+</code></pre>
+<p>But, how the requests arrive and queued? The following section will review that.</p>
+<h2 id="requests-and-acceptor">Requests and Acceptor</h2>
+<p>After analysing the call stack behind the <code>addEvent(PollerEvent)</code> method I found that the <code>auto-1-Acceptor</code> threads queues the incomming events. Recalling our previous analysis, after the <code>Poller</code> queue is initialized, the <code>Acceptor</code> queue is anitialized:</p>
+<pre><code class="language-java">  poller = new Poller();
+  Thread pollerThread = new Thread(poller, getName() + &quot;-Poller&quot;);
+  pollerThread.setPriority(threadPriority);
+  pollerThread.setDaemon(true);
+  pollerThread.start();
+
+  startAcceptorThread();
+</code></pre>
+<p>The reference to the hold element is made in <code>AbstractEndpoint.java</code>:</p>
+<pre><code class="language-java">  /**
+    * Thread used to accept new connections and pass them to worker threads.
+    */
+  protected Acceptor&lt;U&gt; acceptor;
+</code></pre>
+<p>Note that <code>Acceptor</code> resides in the same package that <code>NioEndpoint</code> while <code>Poller</code> is a nested class, so both threads are created by <code>NioEndpoint</code>. Also, <code>Acceptor</code> runs a <code>while(true)</code>, but the same question arises here, how every request is processed without missing something between loops? It seems that the protocol handles that, this listing has some lights on that:</p>
+<pre><code class="language-java">  try {
+      //if we have reached max connections, wait
+=&gt;    endpoint.countUpOrAwaitConnection();
+
+      // Endpoint might have been paused while waiting for latch
+</code></pre>
+<p>In order to understand <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Session">how</a> the requests are not lost between loops, it is necesary to give a look to the HTTP client implemented in the test unit. May be this will be something related to TCP, since this is the underlying transport protocol for HTTP. When you review the client code you find that a socket is behind the <code>SimpleHttpClient</code> provided by Tomcat project. This socket is provided by the JDK in <code>java.net.Socket</code> class. To implement this, the wrapped the socket with and <code>OutputStream</code> object, a write throught it.</p>
+<p>Our abstraction networking limit is the socket, if do not put a boundary to this reasearch will going to deep and this document will be too broad. After reading the <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/net/SocketImpl.html#setPerformancePreferences(int,int,int)">docs</a> for <code>SocketImpl</code>, the underlying connection is created on TCP protocol.</p>
+<p>After reading the Wikipedia <a href="https://en.wikipedia.org/wiki/Transmission_Control_Protocol#Protocol_operation">article</a> on TCP, it is shown that the underlyin connection is managed by the operating system through an Internet Socket. Also the definition provided in MDN <a href="https://developer.mozilla.org/en-US/docs/Glossary/TCP_handshake">docs</a> also relates the terms socket and TCP. Following our previous guesses, the requests are not lost since the connection it is being mantained in TCP.</p>
+<p>Basically, requests are not lost until the server decides to accept new incomming TCP connections; that means to complete the three way [handshake] https://developer.mozilla.org/en-US/docs/Glossary/TCP_handshake. Following this code snipet from <code>Acceptor</code>, you can see that the request will not be process until the server decides to start to process it.</p>
+<pre><code class="language-java">U socket = null;
+try {
+    // Accept the next incoming connection from the server
+    // socket
+    socket = endpoint.serverSocketAccept();
+} catch (Exception ioe) {
+    // We didn't get a socket
+    endpoint.countDownConnection();
+    if (endpoint.isRunning()) {
+        // Introduce delay if necessary
+        errorDelay = handleExceptionWithDelay(errorDelay);
+        // re-throw
+        throw ioe;
+    } else {
+        break;
+    }
+}
+</code></pre>
+<p>The euristic here is that no request got lost if the are not accepted by the server. In other words, nothing will be missed if you do not have nothing to miss.</p>
+    </div>
+    <div class="column-side">
+    </div>
+  </div>
+
+  </body>
+
+  <script>
+    /***********************************************************************
+     * RESPONSIVENESS CONFIGURATION                                        *
+     ***********************************************************************/
+    // var ismobile = navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i);
+    let sides = document.getElementsByClassName("column-side");
+    let content = document.getElementsByClassName("column-content")[0];
+
+    var w = window.innerWidth;
+    var h = window.innerHeight; 
+    if (w/h < 1) {
+      sides[0].classList.remove("column-side");
+      sides[0].classList.remove("column-side");
+      content.classList.remove("column-content");
+    } 
+  </script>
+</html>Generated with NeatPosts by TeraDigit a division of LogicFoundries </br>Last updated: 2023-08-24 11:31:18.168088
