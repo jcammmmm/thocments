@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <style>
+    /* Create three equal columns that floats next to each other */
+.column-content {
+	float: left;
+	width: 50%;
+	padding: 10px;
+  }
+  
+  .column-side {
+	float: left;
+	width: 25%;
+	padding: 10px;
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+	content: "";
+	display: table;
+	clear: both;
+  }
+  
+  blockquote p {
+	/* text-align: justify; */
+	font-size: 11pt;
+	font-style: oblique;
+  }
+  
+  blockquote p:first-child {
+	/* text-align: justify; */
+	font-size: 12pt;
+  }
+  
+  table {
+	margin: 0 auto; /* centers the table */
+  }
+  
+  th {
+	padding-right: 30px;
+  }
+  
+  img {
+	width: 100%;
+	height: auto;
+  }
+  
+  /* IMPORTANT!
+   * This is a quick fix in order to left-align your equations. Because
+   * linebreaks does not work in version 3.2.
+   * see
+   * https://github.com/mathjax/MathJax/issues/2312
+   */
+  mjx-mtd {
+	display: table-cell;
+	text-align: left !important;
+	padding: .215em .4em;
+  }
+  
+  /**
+   * REMOVES underlining for links
+   */
+  a:link { text-decoration: none; }
+  a:visited { text-decoration: none; }
+  a:hover { text-decoration: none; }
+  a:active { text-decoration: none; }
+  
+  body { 
+	  font-family: 'Times New Roman', Times, serif;
+	  font-family: "Computer Modern Serif", serif;
+  }
+  
+  .post-listing-entry {
+	margin-bottom: 1em;
+  }
+  
+  .post-listing-title {
+	margin: 0;
+  }
+  
+  .post-listing-descr {
+	margin-top: 0.5em;
+	margin-bottom: 0;
+  }
+  
+  /************************************************************************
+   * FONTS                                                                *
+   ***********************************************************************/
+   @font-face {
+	  font-family: 'Computer Modern Serif';
+	  src:  url('../../assets/fonts/cmunrm.eot');
+	  src:  url('../../assets/fonts/cmunrm.eot?#iefix') format('embedded-opentype'),
+			  url('../../assets/fonts/cmunrm.woff') format('woff'),
+			  url('../../assets/fonts/cmunrm.ttf') format('truetype'),
+			  url('../../assets/fonts/cmunrm.svg#cmunrm') format('svg');
+	  font-weight: normal;
+	  font-style: normal;
+  }
+  
+  
+  @font-face {
+	  font-family: 'Computer Modern Serif';
+	  src:  url('../../assets/fonts/cmunbx.eot');
+	  src:  url('../../assets/fonts/cmunbx.eot?#iefix') format('embedded-opentype'),
+			  url('../../assets/fonts/cmunbx.woff') format('woff'),
+			  url('../../assets/fonts/cmunbx.ttf') format('truetype'),
+			  url('../../assets/fonts/cmunbx.svg#cmunbx') format('svg');
+	  font-weight: bold;
+	  font-style: normal;
+  }
+  
+  
+  @font-face {
+	  font-family: 'Computer Modern Serif';
+	  src:  url('../../assets/fonts/cmunti.eot');
+	  src:  url('../../assets/fonts/cmunti.eot?#iefix') format('embedded-opentype'),
+			  url('../../assets/fonts/cmunti.woff') format('woff'),
+			  url('../../assets/fonts/cmunti.ttf') format('truetype'),
+			  url('../../assets/fonts/cmunti.svg#cmunti') format('svg');
+	  font-weight: normal;
+	  font-style: italic;
+  }
+  
+  
+  @font-face {
+	  font-family: 'Computer Modern Serif';
+	  src:  url('../../assets/fonts/cmunbi.eot');
+	  src:  url('../../assets/fonts/cmunbi.eot?#iefix') format('embedded-opentype'),
+			  url('../../assets/fonts/cmunbi.woff') format('woff'),
+		  url('../../assets/fonts/cmunbi.ttf') format('truetype'),
+		  url('../../assets/fonts/cmunbi.svg#cmunbi') format('svg');
+	  font-weight: bold;
+	  font-style: italic;
+  }
+  </style>
+  </head>
+  
+  <body> 
+  <!-- https://jinja.palletsprojects.com/en/3.0.x/templates/#base-template -->
+  <div class="row">
+    <div class="column-side">
+    </div>
+    <div class="column-content">
+      <h1 id="purpose">Purpose</h1>
+<p>In order to make explicit the significant role of <em>Hibernate</em>, in this guide I will run the examples provided in the <a href="https://docs.jboss.org/hibernate/orm/6.2/userguide/html_single/Hibernate_User_Guide.html">user guide</a>. The big difference of this guide from others is that I ran <em>Hibernate</em> as terminal application and as a standalone library without mixing it with other frameworks. If you run the offcial examples that came with the <a href="https://docs.jboss.org/hibernate/orm/6.2/quickstart/html_single/">Getting Started</a> you can get confused since the minimal examples are being executed on top of the <em>JUnit</em> testing framework.</p>
+<h1 id="a-minimal-example">A minimal example</h1>
+<p>The minimal example was taken from the Getting Started guide. In this <a href="../java-why-maven/main.md">guide</a> you can see how I obtained the minimal example. The minimal example is located at <code>src</code> folder. The source code provided in the official guide was modified to reflect our proposed changes.</p>
+<h2 id="dependencies">Dependencies</h2>
+<p>The dependencies needed to get this application running are the following:</p>
+<ul>
+<li><code>hibernate-core-6.0.0.CR2.jar</code></li>
+<li><code>jakarta.persistence-api-3.0.0.jar</code></li>
+<li><code>jakarta.transaction-api-2.0.0.jar</code></li>
+<li><code>jboss-logging-3.4.3.Final.jar</code></li>
+<li><code>jandex-2.4.2.Final.jar</code></li>
+<li><code>classmate-1.5.1.jar</code></li>
+<li><code>hibernate-commons-annotations-6.0.0.CR1.jar</code></li>
+<li><code>byte-buddy-1.12.7.jar</code></li>
+<li><code>jakarta.activation-api-2.0.1.jar</code></li>
+<li><code>jakarta.xml.bind-api-3.0.1.jar</code></li>
+<li><code>jakarta.activation-2.0.1.jar</code></li>
+<li><code>jaxb-runtime-3.0.2.jar</code></li>
+<li><code>jaxb-core-3.0.2.jar</code></li>
+<li><code>txw2-3.0.2.jar</code></li>
+<li><code>istack-commons-runtime-4.0.1.jar</code></li>
+<li><code>jakarta.inject-api-2.0.0.jar</code></li>
+<li><code>antlr4-runtime-4.9.1.jar</code></li>
+<li><code>slf4j-simple-1.7.5.jar</code></li>
+<li><code>slf4j-api-1.7.5.jar</code></li>
+<li><code>junit-4.13.2.jar</code></li>
+<li><code>hamcrest-core-1.3.jar</code></li>
+<li><code>h2-1.4.197.jar</code></li>
+</ul>
+<h2 id="orm-mappings">ORM mappings</h2>
+<p>In order to use Hibernate you should describe the ORM mappings and the database connection details. These files are located in the <code>target</code> folder. These files were put there in order the runtime <em>Class Loader</em> picks them by default:
+- <code>hibernate.cfg.xml</code>
+- <code>Event.hbm.xml</code></p>
+<h2 id="argument-files">Argument files</h2>
+<p>I use <em>argument files</em> to compile and run the application. The arguments provided there should be modified according to where you downloaded the <em>jar</em> files.
+- <code>opt.arg</code>
+- <code>opt.argc</code>
+- <code>cls.argc</code></p>
+<h2 id="compile-and-run">Compile and run</h2>
+<p>To compile the application execute:  </p>
+<pre><code class="language-sh">javac @argc
+</code></pre>
+<p>To run the application execute:  </p>
+<pre><code class="language-sh">cd target &amp;&amp; java @../arg
+</code></pre>
+<h2 id="debugging">Debugging</h2>
+<ol>
+<li>Start the server:  </li>
+</ol>
+<pre><code class="language-sh">cd target &amp;&amp; java -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=9393 @../opt.arg
+</code></pre>
+<ol>
+<li>Open another terminal emulator and connect to the debugging session:  </li>
+</ol>
+<pre><code class="language-sh">jdb -attach 9393 -sourcepath .:/home/jcammmmm/repo.m/thocments/java-hibernate/src/:/home/jcammmmm/.m2/repository/org/hibernate/orm/hibernate-core/6.0.0.CR2/:/home/jcammmmm/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.0.0/:/home/jcammmmm/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.0/:/home/jcammmmm/.m2/repository/org/jboss/logging/jboss-logging/3.4.3.Final/:/home/jcammmmm/.m2/repository/org/jboss/jandex/2.4.2.Final/:/home/jcammmmm/.m2/repository/com/fasterxml/classmate/1.5.1/:/home/jcammmmm/.m2/repository/org/hibernate/common/hibernate-commons-annotations/6.0.0.CR1/:/home/jcammmmm/.m2/repository/net/bytebuddy/byte-buddy/1.12.7/:/home/jcammmmm/.m2/repository/jakarta/activation/jakarta.activation-api/2.0.1/:/home/jcammmmm/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/3.0.1/:/home/jcammmmm/.m2/repository/com/sun/activation/jakarta.activation/2.0.1/:/home/jcammmmm/.m2/repository/org/glassfish/jaxb/jaxb-runtime/3.0.2/:/home/jcammmmm/.m2/repository/org/glassfish/jaxb/jaxb-core/3.0.2/:/home/jcammmmm/.m2/repository/org/glassfish/jaxb/txw2/3.0.2/:/home/jcammmmm/.m2/repository/com/sun/istack/istack-commons-runtime/4.0.1/:/home/jcammmmm/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.0/:/home/jcammmmm/.m2/repository/org/antlr/antlr4-runtime/4.9.1/:/home/jcammmmm/.m2/repository/org/slf4j/slf4j-simple/1.7.5/:/home/jcammmmm/.m2/repository/org/slf4j/slf4j-api/1.7.5/:/home/jcammmmm/.m2/repository/junit/junit/4.13.2/:/home/jcammmmm/.m2/repository/org/hamcrest/hamcrest-core/1.3/:/home/jcammmmm/.m2/repository/com/h2database/h2/1.4.197/
+</code></pre>
+<ol>
+<li>Sample commands when you are in a debugging session</li>
+</ol>
+<pre><code>stop at NativeApiIllustrationTest:52
+</code></pre>
+<h1 id="a-minimal-example_1">A minimal example</h1>
+<p><em>The Hibernate Session, like the Jakarta Persistence EntityManager, is not a thread-safe object and it is intended to be confined to a single thread at once. If the Session is shared among multiple threads, there will be race conditions as well as visibility issues, so beware of this.</em></p>
+    </div>
+    <div class="column-side">
+    </div>
+  </div>
+
+  </body>
+
+  <script>
+    /***********************************************************************
+     * RESPONSIVENESS CONFIGURATION                                        *
+     ***********************************************************************/
+    // var ismobile = navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i);
+    let sides = document.getElementsByClassName("column-side");
+    let content = document.getElementsByClassName("column-content")[0];
+
+    var w = window.innerWidth;
+    var h = window.innerHeight; 
+    if (w/h < 1) {
+      sides[0].classList.remove("column-side");
+      sides[0].classList.remove("column-side");
+      content.classList.remove("column-content");
+    } 
+  </script>
+</html>Generated with NeatPosts by TeraDigit a division of LogicFoundries </br>Last updated: 2023-09-05 10:23:32.717339

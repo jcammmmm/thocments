@@ -1,0 +1,16 @@
+{
+    "title": "Debugging RedHat Hibernate",
+    "descr": "This document describes the debugging process of this popular ORM framework. Here you will find comments about the main loop and how to get the application in debugging mode.",
+    "showtoc": false,
+    "pubdate": "2023-08-10",
+    "files": [
+        {
+            "name": "main",
+            "lastupdate": "20230421T1129213939",
+            "hashes": {
+                "html": "23040234230402304",
+                "md": "340203402034"
+            }
+        }
+    ]
+}

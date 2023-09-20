@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="UTF-8"/>
+  <link rel="stylesheet" href="../../assets/layout.css"></link>
+  </head>
+  
+  <body> 
+  <!-- https://jinja.palletsprojects.com/en/3.0.x/templates/#base-template -->
+  <div class="row">
+    <div class="column-side">
+    </div>
+    <div class="column-content">
+      <h1 id="intro">Intro</h1>
+<p>Nowadays (2020's) any important application, utilty, tool or framework seems to be built with the help of <a href="https://maven.apache.org/run.html">Apache Maven</a> or new developments with <a href="https://gradle.org/">Gradle</a>. But, how can you build the software on your own? How hard it is? Today (somewhere in June 2023) I was reading the <em>Hibernate</em> getting started <a href="https://docs.jboss.org/hibernate/orm/6.2/quickstart/html_single/">guide</a>, and I found that they did not use the framework from scratch, instead they provide a working example bundled with Maven and JUnit.</p>
+<p>The main purpose of this article is to show how hard it is to compile and run a mature software application without using <em>Maven</em> and by extension, any kind of building tool. Also, it will serve as walkthrough for whose whom only used the <code>javac</code> and <code>java</code> command to compile single-file and minimal applications.</p>
+<p>For me, always have been important to write and compile the code from scratch in order to gain a good understanding on what the software does. In this situation I will try to compile the examples entirely by hand without using <em>Maven</em>. Let's see how hard it is.</p>
+<h1 id="adding-first-layer-dependencies-compiling">Adding first layer dependencies: Compiling</h1>
+<p>The java code to be run is the <em>getting started</em> examples provided in the bundled distribution of maven. The <em>getting started</em> document points you to a zip containing the tutorials. This tutorials are being packaged with <em>Maven</em> and have <em>JUnit</em> (unit test framework), <em>slf4j</em> (logging framework), <em>H2</em> (in memory database) and <em>Hibernate</em> as dependencies. </p>
+<p>The first thing is to download the dependencies defined in <code>pom.xml</code>. I will download those software from <a href="https://mvnrepository.com/repos/central">Maven Central</a> but you can download it from anywhere else.
+These are the required versions defined there:
+* <code>org.hibernate hibernate-core:6.0.0.CR2</code>
+* <code>org.slf4j slf4j-simple:1.7.5</code>
+* <code>junit junit:4.13.2</code>
+* <code>com.h2database h2:1.4.197</code></p>
+<p>Before to run the clases, some modifications where made:
+  - The two clases on <code>Basic</code> folder, where placed in the default package.
+  - A <code>main()</code> method was added to the test class.
+    <code>java
+    public static void main(String[] args) {
+      NativeApiIllustrationTest app = new NativeApiIllustrationTest();
+      app.setUp();
+      app.testBasicUsage();
+      app.tearDown();
+    }</code>
+  - Any reference to <em>JUnit</em> was removed, now the test class does not extends from <code>junit.framework.TestCase</code>.
+  - The <code>@Overrides were removed</code>.</p>
+<p>Then, issue the following command to your terminal emulator; Note that we also add the source directory <code>src</code> to the <em>classpath</em>:</p>
+<pre><code class="language-sh">javac -cp src:lib/hibernate-core-6.0.0.CR2.jar: src/NativeApiIllustrationTest.java
+</code></pre>
+<p>IMPORTANT. Note that for compiling only it is needed to link those packages that are being used in the source code.</p>
+<p>This will return several error messages, the first one is listed below:</p>
+<pre><code class="language-log">NativeApiIllustrationTest.java:73: error: cannot access EntityManagerFactory
+                        sessionFactory.close();
+                                      ^
+  class file for jakarta.persistence.EntityManagerFactory not found
+</code></pre>
+<p>From that message it is easy to guess that <code>jakarta.persistence.EntityManagerFactory</code> class is not defined. Looking for that package on the web on <a href="https://mvnrepository.com/search?q=jakarta+persistence">maven central</a> I found that <code>hibernate-core:6.0.0.CR2</code> <a href="view-source:https://repo1.maven.org/maven2/org/hibernate/orm/hibernate-core/6.2.0.CR2/hibernate-core-6.2.0.CR2.pom">package</a> has the <code>jakarta.persistence-api</code> as dependency:</p>
+<pre><code class="language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;jakarta.persistence&lt;/groupId&gt;
+  &lt;artifactId&gt;jakarta.persistence-api&lt;/artifactId&gt;
+  &lt;version&gt;3.1.0&lt;/version&gt;
+  &lt;scope&gt;compile&lt;/scope&gt;
+  &lt;exclusions&gt;
+    &lt;exclusion&gt;
+      &lt;artifactId&gt;xml-apis&lt;/artifactId&gt;
+      &lt;groupId&gt;xml-apis&lt;/groupId&gt;
+    &lt;/exclusion&gt;
+  &lt;/exclusions&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p>I download the dependency as we did previously from here:
+<img alt="pic" src="./pic.png"> </p>
+<p>Now, run the following command, that now contains the missing sources:</p>
+<pre><code class="language-sh">javac -d target -cp src:lib/hibernate-core-6.0.0.CR2.jar:lib/jakarta.persistence-api-3.1.0.jar src/NativeApiIllustrationTest.java 
+</code></pre>
+<p>These are the logs:</p>
+<pre><code class="language-log">Note: src/NativeApiIllustrationTest.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+</code></pre>
+<h1 id="adding-second-tier-dependencies-running">Adding second tier dependencies: Running</h1>
+<p>Since our classes belongs to the default package (they do not have declare any package on the begining on the source file) we have to enter to the <code>target</code> folder in order to run this classes. Now, run the application.</p>
+<pre><code class="language-sh">cd target
+java NativeApiIllustrationTest
+</code></pre>
+<p>That try will end in the following error:</p>
+<pre><code class="language-log">Error: Unable to initialize main class NativeApiIllustrationTest
+Caused by: java.lang.NoClassDefFoundError: org/hibernate/service/ServiceRegistry
+</code></pre>
+<p>When you search for this class you find that belongs to the <code>hibernate-core</code> package. After realizing that maybe the dependencies that you used to compile are being used at run time, this is the command:</p>
+<pre><code class="language-sh">java -cp .:../lib/hibernate-core-6.0.0.CR2.jar:../lib/jakarta.persistence-api-3.1.0.jar NativeApiIllustrationTest
+</code></pre>
+<p>That command throws this exception:</p>
+<pre><code class="language-java">Exception in thread &quot;main&quot; java.lang.NoClassDefFoundError: org/jboss/logging/Logger
+        at org.hibernate.boot.registry.selector.internal.StrategySelectorBuilder.&lt;clinit&gt;(StrategySelectorBuilder.java:49)
+        at org.hibernate.boot.registry.BootstrapServiceRegistryBuilder.&lt;init&gt;(BootstrapServiceRegistryBuilder.java:50)
+        at org.hibernate.boot.registry.StandardServiceRegistryBuilder.&lt;init&gt;(StandardServiceRegistryBuilder.java:96)
+        at NativeApiIllustrationTest.setUp(NativeApiIllustrationTest.java:52)
+        at NativeApiIllustrationTest.main(NativeApiIllustrationTest.java:45)
+Caused by: java.lang.ClassNotFoundException: org.jboss.logging.Logger
+        at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:581)
+        at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:178)
+        at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:522)
+        ... 5 more
+</code></pre>
+<p>After adding the previously downloaded <code>slf4j</code> package to the classpath it throws the same exception. When you look at the log you see that the <code>Logger</code> missing class, belongs to the  <code>org.jboss.logging</code> package. After downloading the missing package from <a href="https://mvnrepository.com/artifact/org.jboss.logging/jboss-logging/3.4.3.Final">mavencentral</a> with this command:</p>
+<pre><code class="language-sh">.:../lib/hibernate-core-6.0.0.CR2.jar:../lib/jakarta.persistence-api-3.1.0.jar:../lib/jboss-logging-3.4.3.Final.jar NativeApiIllustrationTest
+</code></pre>
+<p>you get another missing class exception:</p>
+<pre><code>Exception in thread &quot;main&quot; java.lang.NoClassDefFoundError: jakarta/transaction/SystemException
+        at java.base/java.lang.Class.forName0(Native Method)
+        at java.base/java.lang.Class.forName(Class.java:398)
+        at org.jboss.logging.Logger.doGetMessageLogger(Logger.java:2562)
+        at org.jboss.logging.Logger.getMessageLogger(Logger.java:2530)
+        at org.jboss.logging.Logger.getMessageLogger(Logger.java:2516)
+        at org.hibernate.internal.CoreLogging.messageLogger(CoreLogging.java:32)
+        at org.hibernate.internal.CoreLogging.messageLogger(CoreLogging.java:28)
+        at org.hibernate.boot.registry.classloading.internal.ClassLoaderServiceImpl.&lt;clinit&gt;(ClassLoaderServiceImpl.java:40)
+        at org.hibernate.boot.registry.BootstrapServiceRegistryBuilder.build(BootstrapServiceRegistryBuilder.java:185)
+        at org.hibernate.boot.registry.StandardServiceRegistryBuilder.&lt;init&gt;(StandardServiceRegistryBuilder.java:96)
+        at NativeApiIllustrationTest.setUp(NativeApiIllustrationTest.java:52)
+        at NativeApiIllustrationTest.main(NativeApiIllustrationTest.java:45)
+Caused by: java.lang.ClassNotFoundException: jakarta.transaction.SystemException
+        at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:581)
+        at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:178)
+        at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:522)
+        ... 12 more
+</code></pre>
+<h2 id="dependency-tree">Dependency Tree</h2>
+<p>As you can see here the process begins to be cumbersome. In order to see how many dependencies are remaining, I returned to the original source tutorials and get the dependencies tree <code>$ mvn dependency:tree</code>_</p>
+<pre><code class="language-log">[INFO] --- dependency:3.6.0:tree (default-cli) @ hibernate-tutorial-hbm ---
+[WARNING] The artifact org.hibernate:hibernate-core:jar:6.0.0.CR2 has been relocated to org.hibernate.orm:hibernate-core:jar:6.0.0.CR2
+[INFO] org.hibernate.tutorials:hibernate-tutorial-hbm:jar:6.0.0.CR2
+[INFO] +- org.hibernate.orm:hibernate-core:jar:6.0.0.CR2:compile
+[INFO] |  +- jakarta.persistence:jakarta.persistence-api:jar:3.0.0:compile
+[INFO] |  +- jakarta.transaction:jakarta.transaction-api:jar:2.0.0:compile
+[INFO] |  +- org.jboss.logging:jboss-logging:jar:3.4.3.Final:runtime
+[INFO] |  +- org.jboss:jandex:jar:2.4.2.Final:runtime
+[INFO] |  +- com.fasterxml:classmate:jar:1.5.1:runtime
+[INFO] |  +- org.hibernate.common:hibernate-commons-annotations:jar:6.0.0.CR1:runtime
+[INFO] |  +- net.bytebuddy:byte-buddy:jar:1.12.7:runtime
+[INFO] |  +- jakarta.activation:jakarta.activation-api:jar:2.0.1:runtime
+[INFO] |  +- jakarta.xml.bind:jakarta.xml.bind-api:jar:3.0.1:runtime
+[INFO] |  |  \- com.sun.activation:jakarta.activation:jar:2.0.1:runtime
+[INFO] |  +- org.glassfish.jaxb:jaxb-runtime:jar:3.0.2:runtime
+[INFO] |  |  \- org.glassfish.jaxb:jaxb-core:jar:3.0.2:runtime
+[INFO] |  |     +- org.glassfish.jaxb:txw2:jar:3.0.2:runtime
+[INFO] |  |     \- com.sun.istack:istack-commons-runtime:jar:4.0.1:runtime
+[INFO] |  +- jakarta.inject:jakarta.inject-api:jar:2.0.0:runtime
+[INFO] |  \- org.antlr:antlr4-runtime:jar:4.9.1:runtime
+[INFO] +- org.slf4j:slf4j-simple:jar:1.7.5:compile
+[INFO] |  \- org.slf4j:slf4j-api:jar:1.7.5:compile
+[INFO] +- junit:junit:jar:4.13.2:compile
+[INFO] |  \- org.hamcrest:hamcrest-core:jar:1.3:compile
+[INFO] \- com.h2database:h2:jar:1.4.197:compile
+</code></pre>
+<p>After looking our previous exception it is seen that the missing package is <code>jakarta.transaction-api</code>. From here it is easy to guess that all of this dependencies should appear in the class path.</p>
+<p>The next thing I will to try to do is to run the maven project and read the documentation about the compiler plugin. As the <a href="https://maven.apache.org/plugins/index.html">documentation</a> states, Maven is a <em>plugin execution framework</em> so it is a good idea to review how the compile plugin works. Understanding how Maven compiles your code, could you help to understand more clearly how <em>Gradle</em> works.</p>
+<h1 id="how-maven-compile-works-javac-command">How Maven <code>compile</code> works: <code>javac</code> command</h1>
+<p>Before to understand this, you need to know that Maven process software sets by means of <a href="https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html">lifecycles</a>. Basically, one <em>lifecycle</em> are all the steps you repetively do when you want to release a software application e.g. clean (filter .gitignore), generate code (DTO classes generation), run tests, produce code insights, compile and finally package.</p>
+<p>The base project provided with <em>Hibernate</em> has the following folder structure. Note that the only available code is located in the <code>test</code> folder. Recalling the introduction, this was one of the main reasons of this research, because I think that if you want to run a piece of code, it is better if it runs without bloatware, in this case the <em>Junit</em> Java testing framework. Our aim the in the following is to run this minimal example directly, without relying on <em>Maven</em> or the unit testing framework <em>JUnit</em>.</p>
+<pre><code class="language-sh">├── basic
+│   ├── pom.xml
+│   ├── src
+│   │   └── test
+│   │       ├── java
+│   │       │   └── org
+│   │       │       └── hibernate
+│   │       │           └── tutorial
+│   │       │               └── hbm
+│   │       │                   ├── Event.hbm.xml
+│   │       │                   ├── Event.java
+│   │       │                   └── NativeApiIllustrationTest.java
+│   │       └── resources
+│   │           └── hibernate.cfg.xml
+</code></pre>
+<p>Maven performs two separation compilations, one for main application source at <code>src/main</code> and other for testing sources at <code>src/test</code>. The former is executed at the <code>compiler:compile</code> <em>goal</em> and the later at <code>compiler:testCompile</code> <em>goal</em> both from the <em>compile</em> build phase. </p>
+<p>After compiling the test source with debugging options with <code>mvn test-compile -X</code> you find that command that is being used to compile the test is the following</p>
+<pre><code class="language-sh">-d /opt/hibernate-release-6.0.0.CR2/hibernate-tutorials.zip-6.0.0.CR2/basic/target/test-classes -classpath /opt/hibernate-release-6.0.0.CR2/hibernate-tutorials.zip-6.0.0.CR2/basic/target/test-classes:/opt/hibernate-release-6.0.0.CR2/hibernate-tutorials.zip-6.0.0.CR2/basic/target/classes:/home/jcammmmm/.m2/repository/org/hibernate/orm/hibernate-core/6.0.0.CR2/hibernate-core-6.0.0.CR2.jar:/home/jcammmmm/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.0.0/jakarta.persistence-api-3.0.0.jar:/home/jcammmmm/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.0/jakarta.transaction-api-2.0.0.jar:/home/jcammmmm/.m2/repository/org/jboss/logging/jboss-logging/3.4.3.Final/jboss-logging-3.4.3.Final.jar:/home/jcammmmm/.m2/repository/org/jboss/jandex/2.4.2.Final/jandex-2.4.2.Final.jar:/home/jcammmmm/.m2/repository/com/fasterxml/classmate/1.5.1/classmate-1.5.1.jar:/home/jcammmmm/.m2/repository/org/hibernate/common/hibernate-commons-annotations/6.0.0.CR1/hibernate-commons-annotations-6.0.0.CR1.jar:/home/jcammmmm/.m2/repository/net/bytebuddy/byte-buddy/1.12.7/byte-buddy-1.12.7.jar:/home/jcammmmm/.m2/repository/jakarta/activation/jakarta.activation-api/2.0.1/jakarta.activation-api-2.0.1.jar:/home/jcammmmm/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/3.0.1/jakarta.xml.bind-api-3.0.1.jar:/home/jcammmmm/.m2/repository/com/sun/activation/jakarta.activation/2.0.1/jakarta.activation-2.0.1.jar:/home/jcammmmm/.m2/repository/org/glassfish/jaxb/jaxb-runtime/3.0.2/jaxb-runtime-3.0.2.jar:/home/jcammmmm/.m2/repository/org/glassfish/jaxb/jaxb-core/3.0.2/jaxb-core-3.0.2.jar:/home/jcammmmm/.m2/repository/org/glassfish/jaxb/txw2/3.0.2/txw2-3.0.2.jar:/home/jcammmmm/.m2/repository/com/sun/istack/istack-commons-runtime/4.0.1/istack-commons-runtime-4.0.1.jar:/home/jcammmmm/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.0/jakarta.inject-api-2.0.0.jar:/home/jcammmmm/.m2/repository/org/antlr/antlr4-runtime/4.9.1/antlr4-runtime-4.9.1.jar:/home/jcammmmm/.m2/repository/org/slf4j/slf4j-simple/1.7.5/slf4j-simple-1.7.5.jar:/home/jcammmmm/.m2/repository/org/slf4j/slf4j-api/1.7.5/slf4j-api-1.7.5.jar:/home/jcammmmm/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/home/jcammmmm/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/home/jcammmmm/.m2/repository/com/h2database/h2/1.4.197/h2-1.4.197.jar: -sourcepath /opt/hibernate-release-6.0.0.CR2/hibernate-tutorials.zip-6.0.0.CR2/basic/src/test/java:/opt/hibernate-release-6.0.0.CR2/hibernate-tutorials.zip-6.0.0.CR2/basic/target/generated-test-sources/test-annotations: -s /opt/hibernate-release-6.0.0.CR2/hibernate-tutorials.zip-6.0.0.CR2/basic/target/generated-test-sources/test-annotations -g -verbose -target 1.8 -source 1.8
+</code></pre>
+<p>The previously listed command has the following structure:</p>
+<pre><code class="language-sh">-d output/directory
+-classpath jar1/location:jar2/location:other/jar
+-g 
+-verbose
+-target 1.8
+-source 1.8
+</code></pre>
+<h2 id="manual-compilation">'Manual' compilation</h2>
+<p>Having the commands employed by the Maven compiler, I can proceed with my own manual compilation. In order modify and test the commands quickly I used <a href="https://docs.oracle.com/en/java/javase/17/docs/specs/man/javac.html#command-line-argument-files">argument files</a>. These are the argument files:</p>
+<h3 id="clsargc">cls.argc</h3>
+<pre><code>samplespkg/Event.java
+samplespkg/NativeApiIllustrationTest.java
+</code></pre>
+<h3 id="optargc">opt.argc</h3>
+<pre><code class="language-sh">-d target 
+-g
+-classpath .:./lib/hibernate-core-6.0.0.CR2.jar:h2-1.4.197.jar:./lib/jakarta.persistence-api-3.1.0.jar
+-sourcepath .
+</code></pre>
+<p>This commands are called as follows, and basically is the concatenation of the <code>javac</code> with each of the argument file contents.</p>
+<pre><code class="language-sh">javac @opt.args @cls.args
+</code></pre>
+<h2 id="some-notes-about-compilation">Some notes about compilation</h2>
+<p>If you do not read the docs with calm, this could help:
+- It seems that there is no difference between compiling the code with the full <em>classpath</em> or with only the minimal dependencies; <code>javac @opt.argc.bk @cls.argc</code> and <code>javac @opt.argc @cls.argc</code> produce the same compilation results.
+- You only need the minimal dependencies (the <em>jars</em> that contains the definitions of declared objects in your sources) when you are compiling the code, but you need the entire dependency tree for running.
+- The classname includes the package name e.g. <code>samplespkg.NativeApiIllustrationTest</code>
+- If only the main class (the class that contains the <em>main</em> method) is supplied, dependent classes are compiled too without to put them explicitly in the <code>cls.arg</code> file.</p>
+<h1 id="running-your-code-java-command">Running your code: <code>java</code> command</h1>
+<p>By following the debug results from the <code>mvn test-compile -X</code> command, the following argument file was created:</p>
+<h3 id="optarg">opt.arg</h3>
+<pre><code class="language-sh">-classpath .:/home/jcammmmm/.m2/repository/org/hibernate/orm/hibernate-core/6.0.0.CR2/hibernate-core-6.0.0.CR2.jar:/home/jcammmmm/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.0.0/jakarta.persistence-api-3.0.0.jar:/home/jcammmmm/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.0/jakarta.transaction-api-2.0.0.jar:/home/jcammmmm/.m2/repository/org/jboss/logging/jboss-logging/3.4.3.Final/jboss-logging-3.4.3.Final.jar:/home/jcammmmm/.m2/repository/org/jboss/jandex/2.4.2.Final/jandex-2.4.2.Final.jar:/home/jcammmmm/.m2/repository/com/fasterxml/classmate/1.5.1/classmate-1.5.1.jar:/home/jcammmmm/.m2/repository/org/hibernate/common/hibernate-commons-annotations/6.0.0.CR1/hibernate-commons-annotations-6.0.0.CR1.jar:/home/jcammmmm/.m2/repository/net/bytebuddy/byte-buddy/1.12.7/byte-buddy-1.12.7.jar:/home/jcammmmm/.m2/repository/jakarta/activation/jakarta.activation-api/2.0.1/jakarta.activation-api-2.0.1.jar:/home/jcammmmm/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/3.0.1/jakarta.xml.bind-api-3.0.1.jar:/home/jcammmmm/.m2/repository/com/sun/activation/jakarta.activation/2.0.1/jakarta.activation-2.0.1.jar:/home/jcammmmm/.m2/repository/org/glassfish/jaxb/jaxb-runtime/3.0.2/jaxb-runtime-3.0.2.jar:/home/jcammmmm/.m2/repository/org/glassfish/jaxb/jaxb-core/3.0.2/jaxb-core-3.0.2.jar:/home/jcammmmm/.m2/repository/org/glassfish/jaxb/txw2/3.0.2/txw2-3.0.2.jar:/home/jcammmmm/.m2/repository/com/sun/istack/istack-commons-runtime/4.0.1/istack-commons-runtime-4.0.1.jar:/home/jcammmmm/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.0/jakarta.inject-api-2.0.0.jar:/home/jcammmmm/.m2/repository/org/antlr/antlr4-runtime/4.9.1/antlr4-runtime-4.9.1.jar:/home/jcammmmm/.m2/repository/org/slf4j/slf4j-simple/1.7.5/slf4j-simple-1.7.5.jar:/home/jcammmmm/.m2/repository/org/slf4j/slf4j-api/1.7.5/slf4j-api-1.7.5.jar:/home/jcammmmm/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/home/jcammmmm/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/home/jcammmmm/.m2/repository/com/h2database/h2/1.4.197/h2-1.4.197.jar 
+
+NativeApiIllustrationTest
+</code></pre>
+<p>Since our classes are located withing the default package (no package declaration in each source file), we must to place our terminal inside the <code>target</code> folder, otherwise any path provided in the commandline after the <code>java</code> program will be interpreted as a package structure.</p>
+<pre><code class="language-sh">java @../opt.arg
+</code></pre>
+<h2 id="some-notes-about-execution">Some notes about execution</h2>
+<ul>
+<li>When you run the compiled classes outside the output folder <code>target</code>, is expected that the classes are packaged i.e. the path you provide to run the classes <code>java target\ClassName</code> is interpreted as a package name and should match the package declarations on each source file e.g. <code>package target;</code>. </li>
+<li>When running the application with <code>java</code> command, <em>classpath</em> should be declared first before the main class.</li>
+</ul>
+<h1 id="conclusion">Conclusion</h1>
+<p>If you try to run by hand (i.e. without building tools assistance) projects that have several dependencies, you will end figuring out the dependency tree of the project. This will have in the end a satisfying result; you get a bunch of software dependencies interacting each other by hand. However this could consume a lot of time to you. I could explain this phenomena from the point that the software nowadays is being developed with the help of dependency managers and build tools, and in the long run this tools become part of the end artifact. So, an advice for the beginners is to understand how the building tools works behind the scenes, since after some time you will end writting complex software.
+In the other hand, the excercise of running the software at the bare minimum, helps you to understand how the software that you are currently using works. It something similar to analogy of the preference in being the passanger or the driver when you want to know to drive your own car.</p>
+    </div>
+    <div class="column-side">
+    </div>
+  </div>
+
+  </body>
+
+  <script>
+    /***********************************************************************
+     * RESPONSIVENESS CONFIGURATION                                        *
+     ***********************************************************************/
+    // var ismobile = navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i);
+    let sides = document.getElementsByClassName("column-side");
+    let content = document.getElementsByClassName("column-content")[0];
+
+    var w = window.innerWidth;
+    var h = window.innerHeight; 
+    if (w/h < 1) {
+      sides[0].classList.remove("column-side");
+      sides[0].classList.remove("column-side");
+      content.classList.remove("column-content");
+    } 
+  </script>
+</html>Generated with NeatPosts by TeraDigit a division of LogicFoundries </br>Last updated: 2023-09-20 20:47:20.077601

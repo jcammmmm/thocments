@@ -16,6 +16,14 @@ public class App {
 		return a + b;
 	}
 
+	public ComplexNumber add(ComplexNumber a, ComplexNumber b) {
+        System.out.println("###########################");
+        System.out.println(a);
+        System.out.println(b);
+        System.out.println("###########################");
+		return a.add(b);
+	}
+
     public static void main(String... args) {
         System.out.println("buahhahahaah!");
     }

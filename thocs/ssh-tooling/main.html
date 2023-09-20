@@ -12,7 +12,29 @@
     <div class="column-side">
     </div>
     <div class="column-content">
-      {{ content }}
+      <h1 id="how-to-clone-a-repo-the-hard-easy-way">How to clone a repo the hard (easy) way</h1>
+<h2 id="windows">Windows</h2>
+<ol>
+<li>Check if you have the following OpenSSH tools:
+    <code>ssh-keygen
+    ssh-agent
+    ssh-add</code></li>
+<li>Open a CMD and generate a pair of keys with ssh-keygen.</li>
+<li>
+<p>On the same terminal start the <code>ssh-agent</code> in background:
+    <code>powershell
+    $ eval $(ssh-agent)
+    : Agent pid 97280</code></p>
+</li>
+<li>
+<p>Then add your private key to the ssh client:
+    <code>ssh-add ~/.ssh/rsa_id.ppk</code></p>
+</li>
+<li>Clone your git repo providing an SSH url:
+   <code>git clone ssh:\\url.toyour.repo</code></li>
+<li>If your want to push your changes, verify that the remote is point with an ssh URL e.g. <code>git@github.com:&lt;username&gt;/&lt;repository&gt;</code></li>
+</ol>
+<h2 id="linux">Linux</h2>
     </div>
     <div class="column-side">
     </div>
@@ -36,4 +58,4 @@
       content.classList.remove("column-content");
     } 
   </script>
-</html>
+</html>Generated with NeatPosts by TeraDigit a division of LogicFoundries </br>Last updated: 2023-09-20 17:17:53.589943

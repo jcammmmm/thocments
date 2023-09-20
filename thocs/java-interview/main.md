@@ -24,11 +24,16 @@ Technical interview might cover topics like:
         - @Component vs @Service
         - @Qualifier
         - @Scope("prototype")
-* Mockito [2h]
-    - @mockito vs Mockito.spy()
-* JUnit [2h]
+* JUnit
     - @ExtendWith
     - @ParametrizedTest
+* Mockito
+    - @mockito vs Mockito.spy()
+* Messaging Pipelines [2h]
+    - Kafka
+    - RabbitMQ
+* Databases [2h]
+    - Stored procedures MSSQL/Oracle
 * Software design [1h]
     - OOP principles
     - SOLID
@@ -40,11 +45,7 @@ Technical interview might cover topics like:
     - Integration tests
     - Test pyramid
     - High Quality Code Features?
-* Databases [2h]
-    - Stored procedures MSSQL/Oracle
 * CI/CD tools (Chef, Jenkins) [2h]
-* Messaging Pipelines [2h]
-    - RabbitMQ or Kafka
 * Front End 
     - React
     - Angular 2+ (not AngulaJS)
@@ -99,6 +100,11 @@ Only use the `parallel()` method provided by the API. Keep a note that paralleli
 could change your results based on if your intermediate operations are stateless 
 or not. Also, the `limit()` operation could affect negatively the performance of
 parallelization.
+
+### Value Objects
+* LocalDateTime
+* Optional
+* Mentioned in _Mockito_ documentation. Do not mock value objects.
 
 Multithreading
 -------------------------------------------------
@@ -396,6 +402,197 @@ Is the _Spring Framework_ previously defined but with the following added capabi
 - No XML configuration.
 
 ### Actuator
+This sample was taken from the official [guide](https://spring.io/guides/gs/actuator-service/#scratch).
+
+To run and try the sample [application](code/actuatordemo/src/main/java/smpl/jcammmmm/actuatordemo/ActuatordemoApplication.java):
+0. Must have the `Java 11` runtime
+1. `mvn compile`
+2. `mvn spring-boot:run`
+3. `curl http://localhost:8080/actuator/health`
+4. `curl http://localhost:8080/hi?name=Kami`
+
+### @Component vs @Service
+Both belong to `org.springframework.stereotype` package. Here you will find _Annotations denoting the roles of types or methods in the overall architecture (at a conceptual, rather than implementation, level)._
+- `@Component`: Such classes are considered as candidates for auto-detection when using annotation-based configuration and classpath scanning.
+- `@Service`: Specialization of `@Component`. Only offers a semantic difference. _Originally defined by Domain-Driven Design (Evans, 2003) as "an operation offered as an interface that stands alone in the model, with no encapsulated state"_. Is a general purpose stereotype left to let the teams decide its semantics based on its particular usage within the system.
+- `@Repository`: Specialization of `@Component`.
+- `@Controller`: Specialization of `@Component`.
+
+Then, the difference again is merely semantic! You use `@Component` when you have something that perform something very generic, but a `@Service` when you have something that does not enclose an encapsulated state.
+
+### @Qualifier
+When applied to a field or parameter, will allow you to choose which bean to inject when that field is defined by an interface. In other words, will allow you to aim the polymorphic behavior of what is bein injected at runtime.
+From [documentation](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/annotation/Qualifier.html): _This annotation may be used on a field or parameter as a qualifier for candidate beans when autowiring. It may also be used to annotate other custom annotations that can then in turn be used as qualifiers._
+
+### Anotation Scope and @Scope("prototype")
+To understand this it is important to know what _scope_ means. Following the [docs](https://docs.spring.io/spring-framework/reference/core/beans/factory-scopes.html), _scope_ is a _Class bean_ attribute that specifies how the instances are being returned by the framework. There are several kinds of _scopes_:
+* singleton: single bean definition to a single object instance for each Spring IoC container.
+* prototype: the non-singleton prototype scope of bean deployment results in the creation of a new bean instance every time a request for that specific bean is made. That is, the bean is injected into another bean or you request it through a `getBean()` method call on the container. 
+* request: single bean definition per a single HTTP request.
+* session: single bean definition per HTTP Session.
+* application: single bean definition per lifecycle of a ServletContext.
+
+So when you anotate a bean with `@Scope("prototype")`, it will create a new instance each time a bean is defined. For that reason it is recommended when is important to you the state of your application.
+
+JUnit
+=====================================================================
+Unit testing focuses on interfaces, that means to check the methods return values based on a given value. JUnit is framework on which you can write and execute unit tests.
+The code samples was taken from [JUnit samples](https://github.com/junit-team/junit5-samples/tree/r5.10.0/junit5-jupiter-starter-maven) repository.
+
+@ParametrizedTest
+-------------------------------------------------
+With this annotation you can provide input for each of your test scenarios so you can run the test several times for each of these inputs.   
+The sample of [this](code/utest/src/test/java/sampl/jacammmmm/AppTest.java) unit tests illustrates the `@Parametrized` annotation usage.   
+Together with this annotation it is important to know how to provide that input to the method. That input can be provided with the following annotations. More details can be found in the [docs](https://junit.org/junit5/docs/current/user-guide/#writing-tests-parameterized-tests):   
+
+* `@ArgumentsSource`
+* `@MethodSource`
+* `@ValueSource`
+* `@EnumSource`
+* `@CsvSource`
 
 
-### Anotation Scope
+@ExtendWith
+-------------------------------------------------
+In the context of _Spring Boot_ programming, one can infer that `@ExtendWith` annotation integrates contexts to the _JUnit Jupiter_ programming model.
+Whe you write test for an SpringBoot application, you must put the `@SpringBootTest` annotation. This annotation is defined [as](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/test/context/SpringBootTest.html) follows:
+```java
+@Target(TYPE)
+@Retention(RUNTIME)
+@Documented
+@Inherited
+@BootstrapWith(SpringBootTestContextBootstrapper.class)
+@ExtendWith(org.springframework.test.context.junit.jupiter.SpringExtension.class)
+public @interface SpringBootTest
+```
+
+The `SpringExtension` extension has the following signature:
+
+```java
+public class SpringExtension
+extends Object
+implements org.junit.jupiter.api.extension.BeforeAllCallback, org.junit.jupiter.api.extension.AfterAllCallback, org.junit.jupiter.api.extension.TestInstancePostProcessor, org.junit.jupiter.api.extension.BeforeEachCallback, org.junit.jupiter.api.extension.AfterEachCallback, org.junit.jupiter.api.extension.BeforeTestExecutionCallback, org.junit.jupiter.api.extension.AfterTestExecutionCallback, org.junit.jupiter.api.extension.ParameterResolver
+```
+
+After reading the [documention](https://junit.org/junit5/docs/current/user-guide/#extensions) on JUnit extensions, one can see through the examples that what an _extension_ does is to prepare the test execution context by defining what it is being injected or what shall be executed before or after each unit testing method.
+
+`MockitoExtension` [extension](https://javadoc.io/doc/org.mockito/junit-jupiter/latest/index.html) allows you to create mocks in your unit tests.
+
+
+Mockito
+=====================================================================
+Unit testing focuses on interfaces, that means to check the methods return values based on a given value.   
+A single method can call serveral methods in its definition block, so the current return result of this method is function of those inner results. One way to control the test scenarios is by _mocking_ the objects (.i.e creating fake objects) that perform that innercalls, that in turn will return values that you want to test.   
+In particular, sometimes one of those inner calls implements a database query, so in order to ease the code testing it is better to mock that database calls.
+_Mockito_ is a mock framework that let you to create mock instances in your testing code. The sample code can be found [here](code/utest). That code was generated with _maven archetypes_.
+
+In order to have Mockito integrated with JUnit I followed this [documentation](https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html#junit5_mockito) and [this](https://javadoc.io/doc/org.mockito/mockito-junit-jupiter/latest/org/mockito/junit/jupiter/MockitoExtension.html).
+
+
+`@Mock` vs `Mockito.spy()`
+-------------------------------------------------
+- `mock(Something.class)`: mockito framework will instance a mock of `Something` for you.
+- `spy(somethig)`: you must create first the instance, and the stub method calls will be made over this `something` instance. The documentation refer to this as _partial mocking_. In fact, your are spying the method calls of your created instance.
+
+The following usages are quivalent:
+* `A a = mock(A.class);` == `@Mock A a;` == `A a = Mockito.mock(A.class);`
+* `A a = spy(e);` == `@Spy A a = new A();` == `A a = Mockito.spy(e);`
+
+Kafka
+=====================================================================
+1. Install Docker
+2. Pull the image from Docker hub `docker pull bitnami/kafka`
+3. Run the docker-compose.yml they provide in the page `docker compose up -d`
+```yml
+version: "2"
+
+services:
+  kafka:
+    image: docker.io/bitnami/kafka:3.5
+    ports:
+      - "9092:9092"
+    volumes:
+      - "kafka_data:/bitnami"
+    environment:
+      # KRaft settings
+      - KAFKA_CFG_NODE_ID=0
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
+      # Listeners
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+volumes:
+  kafka_data:
+    driver: local
+```
+4. Go to the Kafka [quickstart](https://kafka.apache.org/quickstart)
+5. Follow the tutorial.
+    * Simple topic consuming
+        1. Access the container: `docker exec -ti kafka-kafka-1 bash`
+        2. `cd /opt/bitnami/kafka`
+        3. Create a topic with `bin/kafka-topics.sh`
+        4. Produce and put messages with `bin/kafka-console-producer.sh`
+        5. Read message from `$ bin/kafka-console-consumer.sh`
+    * Reading-then-writting to a file with _Kafka Connect_
+        1. Update the configuration `echo "plugin.path=libs/connect-file-3.5.0.jar" >> config/connect-standalone.properties`
+        2. Create the message source file `echo -e "foo\nbar" > test.txt`
+        3. Launch the connector `bin/connect-standalone.sh config/connect-standalone.properties`
+        4. See the populated topic `bin/kafka-console-consumer.sh`
+        5. See how the file is being written `more test.sink.txt`
+    * Implement some _Kafka Streams_
+        1. 
+
+Relational Databases
+=====================================================================
+- docker volumes
+    - https://docs.docker.com/storage/volumes/#use-a-volume-with-docker-compose
+    - https://github.com/docker-library/docs/blob/master/postgres/README.md#arbitrary---user-notes
+- docker-compose up -d
+- sudo apt install postgresql-client
+- psql -U postgres -h 192.168.0.20 
+- pg_restore -U postgres -h 192.168.0.20 -d dvdrental dvdrental.tar 
+- sample database: https://www.postgresqltutorial.com/postgresql-getting-started/postgresql-sample-database/
+- schema: https://www.postgresqltutorial.com/wp-content/uploads/2018/03/printable-postgresql-sample-database-diagram.pdf
+
+Stored Procedures
+-------------------------------------------------
+install dbeaver to develop more easyly the stored procedure.
+
+
+Software Design
+=====================================================================
+- OOP principles
+    * Abstraction
+    * Encapsulation
+    * Inheritance
+    * Polymorphism
+- SOLID
+    * Single-responsability: clear defined purpose of each class.
+    * Open-closed: open for extension closed for modification
+    * Liskov substitution: all you can do to a class, it can be done to any child subclass (polymorphism).
+    * Interface segregation: do not implement interfaces you donot use.
+    * Dependency inversion: Depend on abstraction, not in concretions.
+- Design Patterns
+- SDLC (Software Development Life Cycle)
+    * Design
+    * Develop
+    * Test
+    * Integrate
+    * Deploy
+    * Mantain
+    * Evaluate
+- DRY (Don't repeat yourself)
+    * If something repeates, replace it with an abstraction
+    * Every recognizable piece of order (information) should be unique within the system.
+- TDD (Test driven development)
+    * Write test first, implement after
+- Integration tests
+    * Run tests mixing several layers of you MVC
+- Test pyramid
+    1. UI Tests
+    22. Integration tests
+    333. Unitests
+- High Quality Code Features?

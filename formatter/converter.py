@@ -4,7 +4,6 @@ import markdown as md
 Translates a Markdown file to an HTML document.
 '''
 def to_html(md_filename):
-  print(md_filename)
   try:
     with open(md_filename, 'r', encoding='UTF-8') as input_file:
       md_doc = input_file.read()
