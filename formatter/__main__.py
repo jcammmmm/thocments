@@ -2,9 +2,11 @@ import argparse
 
 # from .indexgen import generate_index
 from converter import to_html
-from filltempl import fill_content
+from filltempl import fill_and_write_content
+from filltempl import get_write_path
 from rendermath import render_mathematics
 from pathlib import Path
+from os import remove
 
 def main():
   parser = argparse.ArgumentParser(
@@ -13,7 +15,7 @@ def main():
       both of the two worlds: a simple text file, and also a neat displayed html page
       without to get messed with tags.
     """)
-  parser.add_argument('foldername', help='markdown filename without extension')
+  parser.add_argument('foldername', help='markdown filename without extension', nargs='*')
   # parser.add_argument('-r', '--client-rendering', action='store_true', 
     # help="""
     #   Indicates if neatpost LaTeX mathematics shall be renderend on the web browser.
@@ -37,7 +39,12 @@ def main():
   #     an HTTP url that points to the computer modern fonts location.
   #   """)
   args = parser.parse_args()
-  
+  if len(args.foldername) == 0:
+    print('Please provide a foldername, the following are available:')
+    for p in Path('../thocs/').iterdir():
+      print('* ' + p.stem)
+    return
+    
   # Font location: development or production location
   fonts_loc = Path('../../assets/fonts/')
 
@@ -45,16 +52,84 @@ def main():
   if (args.i):
     html_content = generate_index()
   else:
-    for p in Path('../thocs/' + args.foldername).iterdir():
-      if (p.suffix == '.md'):
-        # convert markdown content from 'p' to html
-        html_content = to_html(p)
-        # put the html formated content in our neat templates
-        html_file_loc = fill_content(args.foldername, p.stem, html_content)
+    success = True
+    hashes = []
+    # for each post from the command line
+    for folder in args.foldername:
+      for p in Path('../thocs/' + folder).iterdir():
+        if (p.suffix == '.md'):
+          # convert markdown content to html, then check for post
+          # description
+          html_content = to_html(p)
+          if (p.stem == 'main'):
+            htmlparser = Parser()
+            htmlparser.feed(html_content)
+            if len(htmlparser.descr) == 0:
+              print("WARNING: Please provide a title and a description to your post with '>>'.\nWARNING: Exiting now. No output was produced.")
+              success = False
+              break
+          # put the html formated content in our neat templates then
+          # compute hashes
+          try:
+            hash = fill_and_write_content(p, html_content)
+            hashes.append((p.stem, hash))
+          except Exception as e:
+            print(e)
+            success = False
+            break
+        if not success:
+          break
+      # if not success remove every generated file
+      if success:
+        # hash_neat_posts()
+        pass
+      else:
+        for p in Path('../thocs/' + folder).iterdir():
+          if (p.suffix == '.md'):
+            try: 
+              remove(get_write_path(p))
+            except:
+              pass
+  
+    # Convert HTML with LaTex typesets to pure HTML document with mathematics
+    # if (not args.client_rendering):
+    #   render_mathematics(html_file_loc);
 
-        # Convert HTML with LaTex typesets to pure HTML document with mathematics
-        # if (not args.client_rendering):
-        #   render_mathematics(html_file_loc);
-    
+# def hash_neat_posts(p, hashes):
+#   with open(f)
+
+from html.parser import HTMLParser
+
+class Parser(HTMLParser):
+    def __init__(self):
+      self.title = ''
+      self.descr = ''
+      self.titlepos = 0
+      self.blockquopos = 0
+      self.paragrpos = 0
+      self.currtag = ''
+      super().__init__()
+
+    def handle_starttag(self, tag, attrs):
+        self.currtag = tag
+        if tag == 'h1':
+          self.titlepos += 1
+        if tag == 'blockquote':
+          self.blockquopos += 1
+        if tag == 'p' and self.blockquopos == 1:
+          self.paragrpos += 1
+
+    def handle_data(self, data):
+      if self.currtag == 'h1' and self.titlepos == 1:
+        self.title = data
+        self.titlepos += 1
+        return
+      if self.currtag == 'p' and self.paragrpos == 1:
+        self.descr = data
+        self.blockquopos += 1
+        return
+
+      
+
 if __name__ == '__main__':
   main()

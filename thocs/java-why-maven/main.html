@@ -12,7 +12,11 @@
     <div class="column-side">
     </div>
     <div class="column-content">
-      <h1 id="intro">Intro</h1>
+      <h1 id="debugging-redhat-hibernate">Debugging RedHat Hibernate</h1>
+<blockquote>
+<p>This document describes the debugging process of this popular ORM framework. Here you will find comments about the main loop and how to get the application in debugging mode.</p>
+</blockquote>
+<h1 id="intro">Intro</h1>
 <p>Nowadays (2020's) any important application, utilty, tool or framework seems to be built with the help of <a href="https://maven.apache.org/run.html">Apache Maven</a> or new developments with <a href="https://gradle.org/">Gradle</a>. But, how can you build the software on your own? How hard it is? Today (somewhere in June 2023) I was reading the <em>Hibernate</em> getting started <a href="https://docs.jboss.org/hibernate/orm/6.2/quickstart/html_single/">guide</a>, and I found that they did not use the framework from scratch, instead they provide a working example bundled with Maven and JUnit.</p>
 <p>The main purpose of this article is to show how hard it is to compile and run a mature software application without using <em>Maven</em> and by extension, any kind of building tool. Also, it will serve as walkthrough for whose whom only used the <code>javac</code> and <code>java</code> command to compile single-file and minimal applications.</p>
 <p>For me, always have been important to write and compile the code from scratch in order to gain a good understanding on what the software does. In this situation I will try to compile the examples entirely by hand without using <em>Maven</em>. Let's see how hard it is.</p>
@@ -98,7 +102,7 @@ Caused by: java.lang.ClassNotFoundException: org.jboss.logging.Logger
 <pre><code class="language-sh">.:../lib/hibernate-core-6.0.0.CR2.jar:../lib/jakarta.persistence-api-3.1.0.jar:../lib/jboss-logging-3.4.3.Final.jar NativeApiIllustrationTest
 </code></pre>
 <p>you get another missing class exception:</p>
-<pre><code>Exception in thread &quot;main&quot; java.lang.NoClassDefFoundError: jakarta/transaction/SystemException
+<pre><code class="language-log">Exception in thread &quot;main&quot; java.lang.NoClassDefFoundError: jakarta/transaction/SystemException
         at java.base/java.lang.Class.forName0(Native Method)
         at java.base/java.lang.Class.forName(Class.java:398)
         at org.jboss.logging.Logger.doGetMessageLogger(Logger.java:2562)
@@ -239,4 +243,4 @@ In the other hand, the excercise of running the software at the bare minimum, he
       content.classList.remove("column-content");
     } 
   </script>
-</html>Generated with NeatPosts by TeraDigit a division of LogicFoundries </br>Last updated: 2023-09-20 20:47:20.077601
+</html>Generated with NeatPosts by TeraDigit a division of LogicFoundries </br>Last updated: 2023-09-25 19:02:53.925919

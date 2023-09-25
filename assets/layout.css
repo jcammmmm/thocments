@@ -25,8 +25,8 @@ blockquote p {
 }
 
 blockquote p:first-child {
-	/* text-align: justify; */
-	font-size: 12pt;
+	text-aliggn: justify;
+	font-size: 80%;
 }
 
 table {

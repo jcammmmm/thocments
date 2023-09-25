@@ -1,3 +1,7 @@
+Debugging RedHat Hibernate
+===========================================================
+> This document describes the debugging process of this popular ORM framework. Here you will find comments about the main loop and how to get the application in debugging mode.
+
 Intro
 ===========================================================
 Nowadays (2020's) any important application, utilty, tool or framework seems to be built with the help of [Apache Maven](https://maven.apache.org/run.html) or new developments with [Gradle](https://gradle.org/). But, how can you build the software on your own? How hard it is? Today (somewhere in June 2023) I was reading the _Hibernate_ getting started [guide](https://docs.jboss.org/hibernate/orm/6.2/quickstart/html_single/), and I found that they did not use the framework from scratch, instead they provide a working example bundled with Maven and JUnit.
@@ -115,7 +119,7 @@ After adding the previously downloaded `slf4j` package to the classpath it throw
 ```
 
 you get another missing class exception:
-```
+```log
 Exception in thread "main" java.lang.NoClassDefFoundError: jakarta/transaction/SystemException
         at java.base/java.lang.Class.forName0(Native Method)
         at java.base/java.lang.Class.forName(Class.java:398)
