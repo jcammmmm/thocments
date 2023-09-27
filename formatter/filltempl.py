@@ -2,7 +2,7 @@ import os
 import datetime as time
 from jinja2 import Environment, FileSystemLoader
 from pathlib import Path
-import hashlib
+from digest import compute_digest
 
 """
 Returns
@@ -31,16 +31,6 @@ def fill_and_write_content(p, html_content):
   hash_md = compute_digest(p)
   hash_html = compute_digest(neat_post_loc)
   return hash_md, hash_html
-
-def compute_digest(path):
-  m = hashlib.sha256()
-  with open(path, 'rb') as f:
-    while True:
-      data = f.read(1000)
-      if not data: break
-      m.update(data)
-  return m.hexdigest()
-
 
 def get_write_path(p):
   return p.with_name(p.stem + '.html')

@@ -1,5 +1,4 @@
 import argparse
-import json
 
 # from .indexgen import generate_index
 from converter import to_html
@@ -8,7 +7,8 @@ from filltempl import get_write_path
 from rendermath import render_mathematics
 from pathlib import Path
 from os import remove
-from datetime import date, datetime
+from postinfo import PostInfo
+from postinfo import Hashes
 
 def main():
   parser = argparse.ArgumentParser(
@@ -57,8 +57,8 @@ def main():
     for folder in args.foldername:
       success = True
       post_path = Path('../thocs/' + folder)
-      info_path = post_path.joinpath('info.json')
-      post_info = load_post_info(info_path)
+      post_info_path = post_path.joinpath('info.json')
+      post_info = PostInfo(post_info_path)
       for p in post_path.iterdir():
         if (p.suffix == '.md'):
           # convert markdown content to html, then check for post
@@ -71,8 +71,8 @@ def main():
               print("WARNING: Please provide a title and a description to your post with '>>'.\nWARNING: Exiting now. No output was produced.")
               success = False
               break
-            post_info['title'] = htmlparser.title
-            post_info['descr'] = htmlparser.descr
+            post_info.title = htmlparser.title
+            post_info.descr = htmlparser.descr
           # put the html formated content in our neat templates then
           # compute hashes
           try:
@@ -82,20 +82,11 @@ def main():
             success = False
             break
           # update the file metadata
-          if p.stem in post_info['files']:
-            post_info['files'][p.stem]['hashes']['html'] = hash_html
-            post_info['files'][p.stem]['hashes']['md'] = hash_md
-          else:
-            post_info['files'][p.stem] = {
-              'hashes': {
-                'html': hash_html,
-                'md': hash_md
-              }
-            }
-          post_info['files'][p.stem]['lastupdate'] = str(datetime.today().isoformat())
+          post_info.update(p.stem, Hashes(hash_html, hash_md))
+
       # if not success remove every generated file
       if success:
-        update_post_info(info_path, post_info)
+        post_info.write()
       else:
         for p in post_path.iterdir():
           if (p.suffix == '.md'):
@@ -138,40 +129,6 @@ class Parser(HTMLParser):
         self.descr = data
         self.blockquopos += 1
         return
-
-def load_post_info(p):
-  info_path = p.with_name('info.json')
-  if info_path.exists():
-    with open(info_path, 'rb') as f:
-      return json.loads(f.read())
-  else:
-    info = {
-      'title': '',
-      'descr': '',
-      'showtoc': False,
-      'pubdate': str(date.today()),
-      'files': {
-          # each post must have a main.md file
-          'main': { 
-            'lastupdate': str(datetime.today().isoformat()),
-            'hashes': {
-                'html': '84ec0588475f211f689bb31ebd0025b9e84c69999672250c024767b2fd366de7',
-                'md': '84ec0588475f211f689bb31ebd0025b9e84c69999672250c024767b2fd366de7'
-            }
-          }
-      }
-    }
-    return info
-
-
-
-
-def update_post_info(info_path, post_info):
-  with open(info_path, 'w') as f:
-    f.write(json.dumps(post_info, sort_keys=False, indent=4))
-  
-
-      
 
 if __name__ == '__main__':
   main()
