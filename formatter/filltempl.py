@@ -28,13 +28,19 @@ def fill_and_write_content(p, html_content):
   print(str(neat_post_loc) + ' written.')
 
   # compute hashes to keep everything in order
+  hash_md = compute_digest(p)
+  hash_html = compute_digest(neat_post_loc)
+  return hash_md, hash_html
+
+def compute_digest(path):
   m = hashlib.sha256()
-  with open(neat_post_loc, 'rb') as f:
+  with open(path, 'rb') as f:
     while True:
       data = f.read(1000)
       if not data: break
       m.update(data)
   return m.hexdigest()
+
 
 def get_write_path(p):
   return p.with_name(p.stem + '.html')

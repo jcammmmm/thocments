@@ -1,16 +1,22 @@
 {
     "title": "Debugging RedHat Hibernate",
-    "descr": "This document describes the debugging process of this popular ORM framework. Here you will find comments about the main loop and how to get the application in debugging mode.",
+    "descr": "If you try to run by hand (i.e. without building tools assistance) projects that have several dependencies, you will end figuring out the dependency tree of the project. This will have in the end a satisfying result; you get a bunch of software dependencies interacting each other by hand. However this could consume a lot of time to you. I could explain this phenomena from the point that the software nowadays is being developed with the help of dependency managers and build tools, and in the long run this tools become part of the end artifact. So, an advice for the beginners is to understand how the building tools works behind the scenes, since after some time you will end writting complex software.\nIn the other hand, the excercise of running the software at the bare minimum, helps you to understand how the software that you are currently using works. It something similar to analogy of the preference in being the passanger or the driver when you want to know to drive your own car.",
     "showtoc": false,
-    "pubdate": "2023-08-10",
-    "files": [
-        {
-            "name": "main",
-            "lastupdate": "20230421T1129213939",
+    "pubdate": "2023-09-25",
+    "files": {
+        "main": {
+            "lastupdate": "2023-09-27T16:19:27.162908",
             "hashes": {
-                "html": "23040234230402304",
-                "md": "340203402034"
+                "html": "facb63e3635e1195c56a51f20616a6965a92b120c3331297a3a381f7428f162c",
+                "md": "a5b0b81d0bc8f4cb9d0f875ab1f21c8c72add62034d32a89dda0a25e4adfa36f"
+            }
+        },
+        "readme": {
+            "lastupdate": "2023-09-27T16:19:27.169303",
+            "hashes": {
+                "html": "06c8e57524dfddc3d92d5b1f8e07e70f5913c160224018aa7826c1d342929e71",
+                "md": "669253ffdb24f0f82663f30bec398d96e01d4634150e24291a9d7011c6cfe4f4"
             }
         }
-    ]
+    }
 }
