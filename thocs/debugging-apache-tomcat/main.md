@@ -1,8 +1,8 @@
-Intro
+Debugging Apache Tomcat
 ===========================================================
-In this text I will describe my journey trying to debug one of the most used web server software in the world [Apache Tomcat](https://tomcat.apache.org/). Beyond of being one of the most used web server software, it also implements several of the tools that makes part of the Jakarta EE (previously Java 2E) ecosystem. 
-First I will clone the main project repository hosted publicly on GitHub. Then I will read the build documentation and run some of the tests. After that I will try to find how the webserver manages the internal Servlet and how this web server manages concurrency, on of the topics that interests me the most.
-So let's go and start this short journey. For now I expect to invest all the day on this. In the following series of articles I will disect SpringBoot base servlet and show how integrates with tomcat.
+>> In this text I will describe my journey trying to debug one of the most used web server software in the world [Apache Tomcat](https://tomcat.apache.org/). Beyond of being one of the most used web server software, it also implements several of the tools that makes part of the Jakarta EE (previously Java 2E) ecosystem. 
+> First I will clone the main project repository hosted publicly on GitHub. Then I will read the build documentation and run some of the tests. After that I will try to find how the webserver manages the internal Servlet and how this web server manages concurrency, on of the topics that interests me the most.
+> So let's go and start this short journey. For now I expect to invest all the day on this. In the following series of articles I will disect SpringBoot base servlet and show how integrates with tomcat.
 
 
 Environment Setup

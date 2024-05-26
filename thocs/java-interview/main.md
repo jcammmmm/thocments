@@ -1,8 +1,6 @@
-About
+A Guide to the Java Interview 
 =====================================================================
-This guide not intends to explain each of the topics that appears on the TOC,
-instead provides some text that will clarify and refine your cocepts on the
-addressed terms.
+> This guide not intends to explain each of the topics that appears on the TOC, instead provides some text that will clarify and refine your cocepts on the addressed terms.
 
 
 TOC
@@ -16,6 +14,10 @@ Technical interview might cover topics like:
     - Immutability (mutable vs. immutable)
     - Java Collections
     - Exceptions (checked and unchecked)
+    - Methods
+    - Java 17
+        - `record` keyword
+    - JDBC and JPA
 * git
 * Spring
     - Spring Framework
@@ -24,6 +26,7 @@ Technical interview might cover topics like:
         - @Component vs @Service
         - @Qualifier
         - @Scope("prototype")
+        
 * JUnit
     - @ExtendWith
     - @ParametrizedTest
@@ -108,10 +111,12 @@ parallelization.
 
 Multithreading
 -------------------------------------------------
+#### Low level tooling
+Each object in Java has an _intrinsic lock_ or _monitor_. With that scheme you can avoid _*thread interference*_ i.e. that two or more _interleave_ its execution and _*memory consistency errors*_ i.e. threads access data without keep care of what other threads do.
+
+#### High level tooling
 All the toolset to perform multithreading programming can be found in `java.util.concurrent`
-[package](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/package-summary.html). This toolset is provided as the following set of interfaces an 
-implementation hierarchies. Keep a note that this tools supports the returning of result with
-`Callable`, and not the only processing features (`return void`) of `Thread` and `Runnable`.
+[package](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/package-summary.html). This toolset is provided as the following set of interfaces an implementation hierarchies. Keep a note that this tools supports the returning of result with `Callable`, and not the only processing features (`return void`) of `Thread` and `Runnable`.
 (_dashes_ are _interfaces_, _stars_ are _implementations_):
 
 - `Executor`
@@ -270,6 +275,25 @@ To see the difference is enough to see the interface and class hierarchy:
         - `Exception`: The class Exception and its subclasses are a form of Throwable that indicates conditions that a reasonable application might want to catch. 
 
 So the difference is merely semantic!!
+
+
+Methods
+-------------------------------------------------
+Do not forget that when you invoke a method depending on the type of the data type (reference or primitive) you get the values passed by reference or by value.
+- Primitive data types: `double`, `float`, `int`, `boolean`.
+- Reference data types: Objects and arrays.
+This [guide](https://docs.oracle.com/javase/tutorial/java/javaOO/arguments.html) has the quick and official information on that.
+
+Java 17
+-------------------------------------------------
+### `record` keyword
+This is a new feature added in version 14. Basically its main intent is to avoid the boilerplate code that appears when you work with DTO classes. Can be seen as a native language substitute of _Lombok_.
+
+JDBC and JPA
+-------------------------------------------------
+JDBC and JPA are both API specifications, that is, the behavioral definition (not implementation) on what you could do with a database connection.
+With the JDBC you do more manual work, since this API will only allow you to execute raw SQL against the database. With JPA you interact with the database throught an ORM abstraction, but understand how this abstraction work in a complex schema could not be clear.
+In fact this answer in _StackOverflow_ [1] comments that at initial stages of the project both options are easy to implement, but once the project becomes bigger it is not easy to work with JPA.
 
 
 Git
@@ -596,3 +620,10 @@ Software Design
     22. Integration tests
     333. Unitests
 - High Quality Code Features?
+
+
+
+
+References
+=====================================================================
+[1] https://stackoverflow.com/questions/1353137/hibernate-or-jdbc

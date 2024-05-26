@@ -5,16 +5,16 @@
     "pubdate": "2023-09-25",
     "files": {
         "main": {
-            "lastupdate": "2023-09-27T16:19:27.162908",
+            "lastupdate": "2023-09-28T18:52:06.034591",
             "hashes": {
-                "html": "facb63e3635e1195c56a51f20616a6965a92b120c3331297a3a381f7428f162c",
-                "md": "a5b0b81d0bc8f4cb9d0f875ab1f21c8c72add62034d32a89dda0a25e4adfa36f"
+                "html": "4923177a7999b9a1e708e22f18c55dbfbfa196aae444e15460189b4d9cacb6f7",
+                "md": "e3252c9dd4f606a238c58d198009ab8c6d1947b20089777713e57f0e3eb2244e"
             }
         },
         "readme": {
-            "lastupdate": "2023-09-27T16:19:27.169303",
+            "lastupdate": "2023-09-28T18:52:06.039185",
             "hashes": {
-                "html": "06c8e57524dfddc3d92d5b1f8e07e70f5913c160224018aa7826c1d342929e71",
+                "html": "2fd54c8e0557569e4f4ba63bfa95ddba5e0693aee0b6883fd2df46e597744ea4",
                 "md": "669253ffdb24f0f82663f30bec398d96e01d4634150e24291a9d7011c6cfe4f4"
             }
         }

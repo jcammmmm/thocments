@@ -23,24 +23,28 @@
 <h1 id="adding-first-layer-dependencies-compiling">Adding first layer dependencies: Compiling</h1>
 <p>The java code to be run is the <em>getting started</em> examples provided in the bundled distribution of maven. The <em>getting started</em> document points you to a zip containing the tutorials. This tutorials are being packaged with <em>Maven</em> and have <em>JUnit</em> (unit test framework), <em>slf4j</em> (logging framework), <em>H2</em> (in memory database) and <em>Hibernate</em> as dependencies. </p>
 <p>The first thing is to download the dependencies defined in <code>pom.xml</code>. I will download those software from <a href="https://mvnrepository.com/repos/central">Maven Central</a> but you can download it from anywhere else.
-These are the required versions defined there:
-* <code>org.hibernate hibernate-core:6.0.0.CR2</code>
-* <code>org.slf4j slf4j-simple:1.7.5</code>
-* <code>junit junit:4.13.2</code>
-* <code>com.h2database h2:1.4.197</code></p>
-<p>Before to run the clases, some modifications where made:
-  - The two clases on <code>Basic</code> folder, where placed in the default package.
-  - A <code>main()</code> method was added to the test class.
-    <code>java
-    public static void main(String[] args) {
-      NativeApiIllustrationTest app = new NativeApiIllustrationTest();
-      app.setUp();
-      app.testBasicUsage();
-      app.tearDown();
-    }</code>
-  - Any reference to <em>JUnit</em> was removed, now the test class does not extends from <code>junit.framework.TestCase</code>.
-  - The <code>@Overrides were removed</code>.</p>
-<p>Then, issue the following command to your terminal emulator; Note that we also add the source directory <code>src</code> to the <em>classpath</em>:</p>
+These are the required versions defined there:   </p>
+<ul>
+<li><code>org.hibernate hibernate-core:6.0.0.CR2</code>   </li>
+<li><code>org.slf4j slf4j-simple:1.7.5</code>   </li>
+<li><code>junit junit:4.13.2</code>   </li>
+<li><code>com.h2database h2:1.4.197</code>   </li>
+</ul>
+<p>Before to run the clases, some modifications where made:   </p>
+<ul>
+<li>The two clases on <code>Basic</code> folder, where placed in the default package.</li>
+<li>A <code>main()</code> method was added to the test class.
+  <code>java
+  public static void main(String[] args) {   
+    NativeApiIllustrationTest app = new NativeApiIllustrationTest();   
+    app.setUp();   
+    app.testBasicUsage();   
+    app.tearDown();   
+  }</code>   </li>
+<li>Any reference to <em>JUnit</em> was removed, now the test class does not extends from <code>junit.framework.TestCase</code>.</li>
+<li>The <code>@Overrides were removed</code>.</li>
+</ul>
+<p>Then, issue the following command to your terminal emulator; Note that we also add the source directory <code>src</code> to the <em>classpath</em>:   </p>
 <pre><code class="language-sh">javac -cp src:lib/hibernate-core-6.0.0.CR2.jar: src/NativeApiIllustrationTest.java
 </code></pre>
 <p>IMPORTANT. Note that for compiling only it is needed to link those packages that are being used in the source code.</p>
@@ -243,4 +247,4 @@ In the other hand, the excercise of running the software at the bare minimum, he
       content.classList.remove("column-content");
     } 
   </script>
-</html>Generated with NeatPosts by TeraDigit a division of LogicFoundries </br>Last updated: 2023-09-27 19:57:52.043845
+</html>Generated with NeatPosts by TeraDigit a division of LogicFoundries </br>Last updated: 2023-09-28 18:52:06.034390

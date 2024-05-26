@@ -1,6 +1,5 @@
 import argparse
 
-# from .indexgen import generate_index
 from converter import to_html
 from filltempl import fill_and_write_content
 from filltempl import get_write_path

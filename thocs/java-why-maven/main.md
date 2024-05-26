@@ -15,27 +15,29 @@ Adding first layer dependencies: Compiling
 The java code to be run is the _getting started_ examples provided in the bundled distribution of maven. The _getting started_ document points you to a zip containing the tutorials. This tutorials are being packaged with _Maven_ and have _JUnit_ (unit test framework), _slf4j_ (logging framework), _H2_ (in memory database) and _Hibernate_ as dependencies. 
 
 The first thing is to download the dependencies defined in `pom.xml`. I will download those software from [Maven Central](https://mvnrepository.com/repos/central) but you can download it from anywhere else.
-These are the required versions defined there:
-* `org.hibernate hibernate-core:6.0.0.CR2`
-* `org.slf4j slf4j-simple:1.7.5`
-* `junit junit:4.13.2`
-* `com.h2database h2:1.4.197`
+These are the required versions defined there:   
 
-Before to run the clases, some modifications where made:
-  - The two clases on `Basic` folder, where placed in the default package.
-  - A `main()` method was added to the test class.
-    ```java
-    public static void main(String[] args) {
-      NativeApiIllustrationTest app = new NativeApiIllustrationTest();
-      app.setUp();
-      app.testBasicUsage();
-      app.tearDown();
-    }
-    ```
-  - Any reference to _JUnit_ was removed, now the test class does not extends from `junit.framework.TestCase`.
-  - The `@Overrides were removed`.
+- `org.hibernate hibernate-core:6.0.0.CR2`   
+- `org.slf4j slf4j-simple:1.7.5`   
+- `junit junit:4.13.2`   
+- `com.h2database h2:1.4.197`   
 
-Then, issue the following command to your terminal emulator; Note that we also add the source directory `src` to the _classpath_:
+Before to run the clases, some modifications where made:   
+
+- The two clases on `Basic` folder, where placed in the default package.
+- A `main()` method was added to the test class.
+  ```java
+  public static void main(String[] args) {   
+    NativeApiIllustrationTest app = new NativeApiIllustrationTest();   
+    app.setUp();   
+    app.testBasicUsage();   
+    app.tearDown();   
+  }   
+  ```   
+- Any reference to _JUnit_ was removed, now the test class does not extends from `junit.framework.TestCase`.
+- The `@Overrides were removed`.
+
+Then, issue the following command to your terminal emulator; Note that we also add the source directory `src` to the _classpath_:   
 ```sh
 javac -cp src:lib/hibernate-core-6.0.0.CR2.jar: src/NativeApiIllustrationTest.java
 ```

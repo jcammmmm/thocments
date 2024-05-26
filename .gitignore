@@ -1,1 +1,13 @@
+# GENERIC
+*swp
+
+# VSCODE
+**/.vscode
+
+# PYTHON
+**/.venv
+*.pyc
+
+# JAVA
+*.class
 *.jar

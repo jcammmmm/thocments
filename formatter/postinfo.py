@@ -93,7 +93,8 @@ class PostInfo(Info):
   Writes current object state as a json file.
   """
   def write(self):
-    print(json.dumps(self.as_dict(), sort_keys=False, indent=4))
+    with open(self.info_path, 'w') as f:
+      f.write(json.dumps(self.as_dict(), sort_keys=False, indent=4))
     
 class File(Info):
   def __init__(self, date, html_hash='¿?¿?¿?¿?¿?¿?¿?¿?¿?¿?¿?¿?', md_hash='¿?¿?¿?¿?¿?¿?¿?¿?¿?¿?¿?¿?'):
