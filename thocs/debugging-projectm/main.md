@@ -38,10 +38,10 @@ Before building it is important to note that _ProjectM_ perse is a library. If y
 2. `git clone https://github.com/projectM-visualizer/projectm.git`
 3. `git clone https://github.com/pocoproject/poco/tree/poco-1.13.3-release`
 4. Compile _ProjectM_. Follow the readme file. Be aware that your projectm library will be installed in `/usr/local` folder.
-5. Compile _POCO_ library.
+5. Compile and install _POCO_ library.
     1. `mkdir cmake-build && cd cmake-build`
     2. `cmake ..`
-    3. `cmake --build . && --target install`
+    3. `cmake --build . --target install`
 6. Compile the _frontend_.   
     1. `cmake -S . -B cmake-build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local`
     2. `cmake --build cmake-build --config Release`
@@ -50,12 +50,19 @@ Before building it is important to note that _ProjectM_ perse is a library. If y
 
 HISTORY
 ===========================================================
-### 230525
+### 240614
+Today I found that in cmake build folder you can find a file called install_manifiest.txt. Since this is a maniefiest file, here you find the list of files that are being installed on the system. I pass this file through `xargs` to the `rm` command and I removed the poco library. Again I want to replicate the build error from last time in order to understand and debug the C++ build process.
+
+### 240611
+The last time I tried to work on this I was looking how to create a sandboxed environment in order to build the software more clearly on each build. I did not get anything similar to `virtualenv` in Python
+
+
+### 240525
 Now I will execute the code and try to run again. There is one task and it is to review the github page where some explained why the application did not run. I remember that that was not the case for me beacuase was the troubleshooting for another library. I just remembered what it was.   
 From previous time I was troubling with the POCO library. It happens that after a year without reviewing this, now the developer changed the library requirements. Now the version 3.9 is being used. Happens that such library is not available from the apt repository for debian. I have had to compiled and run. But happened that beacuase the default installation location I must to indicate to the `ld` command where to look for these new library resources. This is the [link][pocolibdicuss] of the discussion.   
 The efforts will be focused for now in to understand the frontend. This is an interesting project to work, that lets to understand easily how the toolchain works in C++.
 
-### 2305??
+### 2405??
 Log begins. But remembering what I had done previously was to compile and install the library in `/usr/local` folder. Then compiled the frontend written in sdle and also install it in `/usr/local`.   
 From the previous time I remember that I was trying to run projectm without the provided app that implements it throught SDL2; that is, running the application with GLEW. After that I found that it is easier and I could learn more if I try the example application. That is what I'm doing now.
   

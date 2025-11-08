@@ -1,0 +1,13 @@
+dibujo dns, http
+  . pagina -> recurso
+  . dominio,ip,dns,mapeo-> resolver
+  . priorizar -> precedencia; tener mas precedencia
+  . HTML también es forma
+    ' indica el texto == contenido
+  . ssh
+    ' conexion segura: pueden robar, pero no ver
+  . problema del huevo y la gallina
+  . lo de las extensiones
+    . codificación de texto de letricas
+  . carpeta raiz del server
+  

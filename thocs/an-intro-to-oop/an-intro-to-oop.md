@@ -24,3 +24,21 @@ How you can do that. Well you first identify, that a program can have
 a several set of inputs that characterizes every run, so why not
 to set appart the variables that will encolose your program, and then
 define several subprograms grouped into that program...
+
+# Pass by value and pass reference
+In bash you only have pass by value, that is you do not have the behavior
+as in matemathics e.g.:
+
+  x = 4 
+  d = 2x
+  x = 6
+  print(d) # 8
+  
+In bash you need to reevaluate the expression to become this true:
+  
+  x = 4 
+  d = 2x
+  x = 6
+  d = 2x
+  print(d) # 12
+  

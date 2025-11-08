@@ -31,7 +31,7 @@ public class Executor
     String exec[];
     Process child;
 
-    public Executor(String hostPort, String znode, String filename,
+    public Executor(String hostPort, String znode, String filename, 
             String exec[]) throws KeeperException, IOException {
         this.filename = filename;
         this.exec = exec;
@@ -75,6 +75,7 @@ public class Executor
      */
     @Override // Watcher.process 
     public void process(WatchedEvent event) {
+        System.out.println("buahhaha");
         dm.process(event);
     }
 
@@ -138,6 +139,8 @@ public class Executor
                 System.out.println("Stopping child");
                 child.destroy();
                 try {
+                    // @@
+                    // Causes the current thread to wait, if necessary, until the process represented by this Process object has terminated.
                     child.waitFor();
                 } catch (InterruptedException e) {
                     e.printStackTrace();

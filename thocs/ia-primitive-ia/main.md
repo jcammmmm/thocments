@@ -1,3 +1,0 @@
-A retrospective view of artificial intelligence
-=======================================
-> In this document I want to remark that mathematical optimizers e.g. Newton's Method, The Disection method, the KKT theorem, the Kolmogorov approximation and so on are primitive artificial inteligence tools. This perception will allow us to identify in an abstract fashion, what features must posses a computing device in order to provide _intelligent_ capabilities. By the end of the document I will comment how humans are encoding and transferring knowledge to machines, and how mathematics are serving as a bridge language in order to encode that knowledge. This will open the doors to my next post on knowledge transfer.

@@ -107,6 +107,7 @@ public class DataMonitor implements Watcher, StatCallback {
         default:
             // Retry errors
             System.out.println("retry...");
+            // https://zookeeper.apache.org/doc/r3.9.1/apidocs/zookeeper-server/org/apache/zookeeper/ZooKeeper.html#exists(java.lang.String,boolean)
             zk.exists(znode, true, this, null);
             return;
         }
@@ -114,6 +115,7 @@ public class DataMonitor implements Watcher, StatCallback {
         byte b[] = null;
         if (exists) {
             try {
+                // https://zookeeper.apache.org/doc/r3.9.1/apidocs/zookeeper-server/org/apache/zookeeper/ZooKeeper.html#getData(java.lang.String,boolean,org.apache.zookeeper.data.Stat)
                 b = zk.getData(znode, false, null);
             } catch (KeeperException e) {
                 // We don't need to worry about recovering now. The watch

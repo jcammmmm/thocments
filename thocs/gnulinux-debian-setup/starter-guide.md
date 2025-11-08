@@ -118,6 +118,7 @@ PDF Tools
 This tools will be pretty usefull for documentations tasks.
 * `pdfinfo`: Returns pdf metada such as producer name (scanner name, software), number of pages etc.
 * `pdfimages`: Extracts images from a PDF file. If you want to extract every image from `book.pdf` and store each image file with the filename `page-*` this command could help `pdfimages book.pdf out/page`.
+* `libimage-exiftool-perl`: Edit PDF metadata such as display title or author.
 
 `tesseract-ocr`
 ---------------------------------------
@@ -241,7 +242,8 @@ Effortless system usage
 	```cmp fileA fileB```
 * Upgrade only one package. Use the same install command.
     ```sudo apt install <pkgname>```
-    
+* Save your command history
+  ```history -a```
 
 ### Shortcuts
 #### KDE
@@ -261,6 +263,7 @@ Effortless system usage
 ## Software management
 * Querying your local software database:
   - `dpkg -l` list packages
+  - `dpkg -L` list install location
   - `dpkg-query -L <package-name>`
 - `dmesg` system logs
 - `journalctl` 
@@ -269,6 +272,15 @@ Effortless system usage
 
 Troubleshooting
 ===============================================================================
+Brightness Keys does not work
+--------------------------------------
+Change the brighness by modifying a system file:
+1. `cd /sys/class/backlight`
+Because on each system could be different I recommend to cd into based on your case:
+2. `cd /amdgpu_b10`
+3. `sudo vim brightness`
+
+
 (PipeWire Error) Screen Sharing Error
 ---------------------------------------
 Install this software:
@@ -288,6 +300,18 @@ sudo apt install pulseaudio-module-bluetooth
 pulseaudio -k
 pulseaudio --start
 ```
+Change to the new Pipewire audio server
+```
+sudo apt install bluez-firmware
+sudo systemctl status bluetooth
+sudo systemctl start bluetooth
+sudo apt install bluedevil
+sudo apt remove pulseaudio-module-bluetooth 
+sudo apt install libspa-0.2-bluetooth 
+# restart computer
+sudo systemctl start bluetooth
+```
+See for more [details][blutfix].
 
 Restart KDE UI 
 ---------------------------------------
@@ -347,3 +371,8 @@ The graphics drivers for both _Lenovo H520s_ and _HP G8 245_ can be found [here]
 
 1. mount your drive with the ```.deb``` firmware packages
 2. ```apt install firmware-????-????```
+
+
+REFERENCES
+=====================================================================
+[blutfix]: https://wiki.debian.org/BluetoothUser/a2dp

@@ -2,7 +2,7 @@ Intro
 ===========================================================
 Together with this posts is also useful to give a look to to this [repo](???) it contains my exploration of the documentation and how to use it correctly. The base working code was obtained after following the _getting started guides_ available [here](https://docs.jboss.org/hibernate/orm/6.2/quickstart/html_single/).
 
-From my experience, it seems that this framework is the first option one chooses when the bussiness logic is about to be implemented in Java, and not in the form of the stored procedures in the database. As a reason of that several components such as _hibernate-hikaricp_ and _hiberante-jcache_ appear in the preamble of the guide. We hope in futer guides review them. Keep an eye on the main index for them.
+From my experience, it seems that this framework is the first option one chooses when the bussigness logic is about to be implemented in Java, and not in the form of the stored procedures in the database. As a reason of that several components such as _hibernate-hikaricp_ and _hiberante-jcache_ appear in the preamble of the guide. We hope in futer guides review them. Keep an eye on the main index for them.
 
 This framework is a main dependency in _Spring Boot_, in fact it makes part of one of the most commonly used [starters](https://repo1.maven.org/maven2/org/springframework/boot/spring-boot-starter-data-jpa/3.1.1/spring-boot-starter-data-jpa-3.1.1.pom)
 

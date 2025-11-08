@@ -5,6 +5,12 @@ Storage Manipulation in GNU/Linux
 Access
 ======================================================================
 
+
+Storage Usage
+------------------------------
+* `df -Th -x tmpfs --total`
+* `du -h -s *  | sort -n`
+
 Check connected devices
 ------------------------------
 * `lsblk`
